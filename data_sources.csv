@@ -1,0 +1,10 @@
+body,dataset,variable,official_url,notes
+Earth,NASA POWER daily,temperature precipitation humidity wind solar,https://power.larc.nasa.gov/docs/services/api/temporal/daily/,script downloads actual numeric data
+Earth,NASA SRTM,elevation,https://www.earthdata.nasa.gov/data/instruments/srtm,download DEM separately
+Earth,USGS 3DEP,elevation,https://www.usgs.gov/3d-elevation-program,US coverage
+Earth,USGS geological maps,rock units,https://ngmdb.usgs.gov/,regional map matching needed
+Moon,LOLA,elevation,https://imbrium.mit.edu/,regional DEMs available
+Moon,USGS lunar geology,geological units,https://astrogeology.usgs.gov/,map digitization needed
+Mars,MOLA,elevation,https://pds-geosciences.wustl.edu/missions/mgs/megdr.html,download planetary raster
+Mars,USGS Mars geological map,geological units,https://astrogeology.usgs.gov/,regional interpretation needed
+Mars,NASA Mars fact sheet,pressure temperature composition,https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html,global reference not location values

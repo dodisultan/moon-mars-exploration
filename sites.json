@@ -1,0 +1,74 @@
+[
+  {
+    "site": "atacama_chile",
+    "latitude": -23.5,
+    "longitude": -69.3,
+    "country": "Chile",
+    "environment": "hyperarid desert",
+    "role": "known_reference",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "death_valley_usa",
+    "latitude": 36.46,
+    "longitude": -116.87,
+    "country": "USA",
+    "environment": "arid basin",
+    "role": "known_reference",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "haughton_canada",
+    "latitude": 75.38,
+    "longitude": -89.67,
+    "country": "Canada",
+    "environment": "polar impact crater",
+    "role": "known_reference",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "wadi_rum_jordan",
+    "latitude": 29.58,
+    "longitude": 35.42,
+    "country": "Jordan",
+    "environment": "sandstone desert",
+    "role": "exploratory_candidate",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "iceland_highlands",
+    "latitude": 64.5,
+    "longitude": -18.5,
+    "country": "Iceland",
+    "environment": "volcanic highlands",
+    "role": "exploratory_candidate",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "dallol_ethiopia",
+    "latitude": 14.24,
+    "longitude": 40.3,
+    "country": "Ethiopia",
+    "environment": "extreme geothermal desert",
+    "role": "exploratory_candidate",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "tabuk_saudi_arabia",
+    "latitude": 28.38,
+    "longitude": 36.58,
+    "country": "Saudi Arabia",
+    "environment": "arid rocky region",
+    "role": "exploratory_candidate",
+    "status": "candidate_not_scored"
+  },
+  {
+    "site": "mauna_loa_hawaii",
+    "latitude": 19.48,
+    "longitude": -155.6,
+    "country": "USA",
+    "environment": "volcanic terrain",
+    "role": "exploratory_candidate",
+    "status": "candidate_not_scored"
+  }
+]

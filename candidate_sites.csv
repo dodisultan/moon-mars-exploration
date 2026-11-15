@@ -1,0 +1,9 @@
+site,latitude,longitude,country,environment,role,status
+atacama_chile,-23.5,-69.3,Chile,hyperarid desert,known_reference,candidate_not_scored
+death_valley_usa,36.46,-116.87,USA,arid basin,known_reference,candidate_not_scored
+haughton_canada,75.38,-89.67,Canada,polar impact crater,known_reference,candidate_not_scored
+wadi_rum_jordan,29.58,35.42,Jordan,sandstone desert,exploratory_candidate,candidate_not_scored
+iceland_highlands,64.5,-18.5,Iceland,volcanic highlands,exploratory_candidate,candidate_not_scored
+dallol_ethiopia,14.24,40.3,Ethiopia,extreme geothermal desert,exploratory_candidate,candidate_not_scored
+tabuk_saudi_arabia,28.38,36.58,Saudi Arabia,arid rocky region,exploratory_candidate,candidate_not_scored
+mauna_loa_hawaii,19.48,-155.60,USA,volcanic terrain,exploratory_candidate,candidate_not_scored

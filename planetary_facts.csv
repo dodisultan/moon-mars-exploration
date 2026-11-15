@@ -1,0 +1,7 @@
+body,variable,value,unit,scope,source_url
+Earth,gravity,9.8,m/s2,global_reference,https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+Moon,gravity,1.6,m/s2,global_reference,https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+Mars,gravity,3.7,m/s2,global_reference,https://nssdc.gsfc.nasa.gov/planetary/factsheet/
+Mars,mean_atmospheric_temperature,-59,degC,global_reference,https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html
+Mars,surface_pressure,6.36,mbar,mean_radius_reference,https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html
+Mars,atmospheric_CO2,95.1,percent_by_volume,global_reference,https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html
