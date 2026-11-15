@@ -110,6 +110,30 @@ class CheckedInEvidenceTests(unittest.TestCase):
         }
         self.assertEqual(len(usgs_groups), 2)
 
+    def test_comparable_cohorts_support_only_shared_product_terrain_deltas(self):
+        sites = json.loads((ROOT / "sites.json").read_text())
+        dataset = json.loads((ROOT / "data/processed/site_terrain_geology.json").read_text())
+        terrain_groups = {}
+        for site in sites:
+            terrain = dataset["locations"][site["site"]]["terrain"]
+            if terrain["status"] == "complete" and terrain["metrics"]["valid_samples"] == 9:
+                terrain_groups.setdefault(terrain["comparison_group"], []).append(site["site"])
+        shared_cohorts = [members for members in terrain_groups.values() if len(members) > 1]
+        self.assertEqual([len(members) for members in shared_cohorts], [6])
+        self.assertEqual(sum(len(members) * (len(members) - 1) // 2 for members in shared_cohorts), 15)
+
+        climate = json.loads((ROOT / "data/earth/climate_summary.json").read_text())
+        complete_climate_sites = [
+            item for item in climate
+            if item["days_downloaded"] == item["days_requested"]
+            and item["valid_days_t2m"] == item["days_requested"]
+            and item["valid_days_precipitation"] == item["days_requested"]
+        ]
+        self.assertEqual(len(complete_climate_sites), 8)
+        self.assertEqual(len({item["source"] for item in complete_climate_sites}), 1)
+        self.assertEqual(len({item["period"] for item in complete_climate_sites}), 1)
+        self.assertEqual(len(complete_climate_sites) * (len(complete_climate_sites) - 1) // 2, 28)
+
 
 if __name__ == "__main__":
     unittest.main()

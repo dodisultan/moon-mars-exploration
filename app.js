@@ -10,6 +10,7 @@
   const pretty = (value) => String(value || '').replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()).replace(/\bUsa\b/g, 'USA');
   const validNumber = (value) => value !== '' && value !== null && value !== undefined && Number.isFinite(Number(value));
   const validPowerValue = (value) => validNumber(value) && Number(value) > -990;
+  const roundDelta = (value) => Number(value.toFixed(6));
 
   function parseCSV(text) {
     const rows = [];
@@ -148,6 +149,248 @@
   function findSiteClimate(siteId) {
     return state.climateSummary.find((item) => item.site === siteId) || null;
   }
+  const terrainPairMetrics = [
+    { key: 'elevation_m', label: 'Elevation', unit: 'm' },
+    { key: 'slope_degrees', label: 'Slope', unit: '°' },
+    { key: 'relief_m', label: 'Relief', unit: 'm' },
+    { key: 'roughness_stddev_m', label: 'Roughness SD', unit: 'm' }
+  ];
+  function hasCompleteComparableTerrain(site) {
+    const terrain = terrainForSite(site.site);
+    return terrain?.status === 'complete'
+      && terrain.metrics?.valid_samples === 9
+      && terrain.metrics?.total_samples === 9
+      && Boolean(terrain.comparison_group)
+      && terrainPairMetrics.every(({ key }) => validNumber(terrain.metrics[key]));
+  }
+  function terrainComparisonCohorts(sites) {
+    const cohorts = new Map();
+    for (const site of sites) {
+      if (!hasCompleteComparableTerrain(site)) continue;
+      const terrain = terrainForSite(site.site);
+      if (!cohorts.has(terrain.comparison_group)) cohorts.set(terrain.comparison_group, []);
+      cohorts.get(terrain.comparison_group).push(site);
+    }
+    return cohorts;
+  }
+  function pairwiseSites(sites) {
+    const pairs = [];
+    for (let first = 0; first < sites.length; first += 1) {
+      for (let second = first + 1; second < sites.length; second += 1) {
+        pairs.push([sites[first], sites[second]]);
+      }
+    }
+    return pairs;
+  }
+  function comparableClimateDeltas(first, second) {
+    const a = findSiteClimate(first.site);
+    const b = findSiteClimate(second.site);
+    if (!a || !b || a.source !== b.source || a.period !== b.period
+        || a.days_requested !== b.days_requested || a.days_downloaded !== a.days_requested
+        || b.days_downloaded !== b.days_requested) return null;
+    const deltas = {};
+    if (a.mean_temp_unit === b.mean_temp_unit
+        && a.valid_days_t2m === a.days_requested && b.valid_days_t2m === b.days_requested
+        && validNumber(a.mean_temp_c) && validNumber(b.mean_temp_c)) {
+      deltas.mean_temp_c = roundDelta(Number(b.mean_temp_c) - Number(a.mean_temp_c));
+    }
+    if (a.total_precipitation_unit === b.total_precipitation_unit
+        && a.valid_days_precipitation === a.days_requested
+        && b.valid_days_precipitation === b.days_requested
+        && validNumber(a.total_precipitation_mm_2023_2024)
+        && validNumber(b.total_precipitation_mm_2023_2024)) {
+      deltas.total_precipitation_mm_2023_2024 = roundDelta(
+        Number(b.total_precipitation_mm_2023_2024) - Number(a.total_precipitation_mm_2023_2024)
+      );
+    }
+    return deltas;
+  }
+  function geologySourceKey(unit) {
+    if (!unit.source_id || !unit.source_reference
+        || !['large', 'medium', 'small'].includes(unit.map_scale_class)) return null;
+    return JSON.stringify([String(unit.source_id), unit.map_scale_class, unit.source_reference]);
+  }
+  function comparableGeologyUnits(site) {
+    return (geologyForSite(site.site)?.map_units || [])
+      .filter((unit) => geologySourceKey(unit))
+      .map((unit) => ({ unit, key: geologySourceKey(unit) }));
+  }
+  function sharedGeologyMapUnits(first, second) {
+    const matches = [];
+    for (const a of comparableGeologyUnits(first)) {
+      for (const b of comparableGeologyUnits(second)) {
+        if (a.key === b.key) matches.push({ first: a.unit, second: b.unit, key: a.key });
+      }
+    }
+    return matches;
+  }
+  function ageInterval(unit) {
+    if (!validNumber(unit.age_top_ma) || !validNumber(unit.age_bottom_ma)) return null;
+    const younger = Number(unit.age_top_ma);
+    const older = Number(unit.age_bottom_ma);
+    return younger <= older ? [younger, older] : null;
+  }
+  function ageOverlap(first, second) {
+    const a = ageInterval(first);
+    const b = ageInterval(second);
+    if (!a || !b) return 'Age not reported';
+    const younger = Math.max(a[0], b[0]);
+    const older = Math.min(a[1], b[1]);
+    if (younger > older) return 'No overlap';
+    if (younger === older) return `Ranges meet at ${younger.toFixed(2)} Ma boundary`;
+    return `Overlap: ${younger.toFixed(2)}–${older.toFixed(2)} Ma`;
+  }
+  function buildPairwiseComparisonData(sites) {
+    return pairwiseSites(sites).map(([first, second]) => {
+      const a = terrainForSite(first.site);
+      const b = terrainForSite(second.site);
+      const terrainComparable = hasCompleteComparableTerrain(first)
+        && hasCompleteComparableTerrain(second)
+        && a.comparison_group === b.comparison_group;
+      const terrainDeltas = terrainComparable
+        ? Object.fromEntries(terrainPairMetrics.map(({ key }) => [
+          key, roundDelta(Number(b.metrics[key]) - Number(a.metrics[key]))
+        ]))
+        : null;
+      return {
+        first_site: first.site,
+        second_site: second.site,
+        climate_deltas: comparableClimateDeltas(first, second),
+        terrain_comparison_group: terrainComparable ? a.comparison_group : null,
+        terrain_deltas: terrainDeltas,
+        shared_geology: sharedGeologyMapUnits(first, second).map(({ first: unitA, second: unitB, key }) => ({
+          source_key: key,
+          source_id: unitA.source_id,
+          map_scale_class: unitA.map_scale_class,
+          source_reference: unitA.source_reference,
+          source_reference_url: unitA.source_reference_url || null,
+          first_unit: {
+            map_id: unitA.map_id,
+            name: unitA.name || null,
+            lithology: unitA.lithology || unitA.stratigraphic_name || null,
+            age_top_ma: ageInterval(unitA)?.[0] ?? null,
+            age_bottom_ma: ageInterval(unitA)?.[1] ?? null
+          },
+          second_unit: {
+            map_id: unitB.map_id,
+            name: unitB.name || null,
+            lithology: unitB.lithology || unitB.stratigraphic_name || null,
+            age_top_ma: ageInterval(unitB)?.[0] ?? null,
+            age_bottom_ma: ageInterval(unitB)?.[1] ?? null
+          },
+          age_interval_relation: ageOverlap(unitA, unitB)
+        }))
+      };
+    });
+  }
+  function renderPairwiseComparisons(selected) {
+    const section = el('div', 'pairwise-comparisons');
+    const terrainBlock = el('div', 'pairwise-block');
+    terrainBlock.append(
+      el('h4', '', 'Comparable pairwise differences'),
+      el('p', 'measurement-provenance', 'Δ = second listed site minus first. Raw differences are shown only for complete 9/9 terrain windows in the same recorded source/resolution/vertical-reference group, and for matching NASA POWER source, units, period, and full valid-day coverage. These are measurements, not normalized similarity scores.')
+    );
+    const comparisons = buildPairwiseComparisonData(selected);
+    const terrainComparisons = comparisons.filter((comparison) => comparison.terrain_deltas);
+    if (!comparisons.length) {
+      terrainBlock.append(el('p', 'muted', 'Select at least two sites to compare; no pairwise differences are calculated for a single site.'));
+    } else {
+      const table = el('table', 'comparison-table');
+      const head = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Site pair (Δ second − first)', 'Mean T2M Δ (°C)', '2023–24 precipitation total Δ (mm)', ...terrainPairMetrics.map(({ label, unit }) => `${label} Δ (${unit})`)]
+        .forEach((label) => headerRow.append(el('th', '', label)));
+      head.append(headerRow);
+      const body = document.createElement('tbody');
+      for (const comparison of comparisons) {
+        const row = document.createElement('tr');
+        row.append(el('td', '', `${pretty(comparison.first_site)} → ${pretty(comparison.second_site)}`));
+        const climate = comparison.climate_deltas;
+        const climateFields = [
+          ['mean_temp_c', '°C'],
+          ['total_precipitation_mm_2023_2024', 'mm']
+        ];
+        for (const [key, unit] of climateFields) {
+          const value = climate?.[key];
+          row.append(el('td', value === undefined ? 'missing' : '', value === undefined ? 'Not comparable' : `${value >= 0 ? '+' : ''}${value.toFixed(2)} ${unit}`));
+        }
+        for (const { key, unit } of terrainPairMetrics) {
+          const value = comparison.terrain_deltas?.[key] ?? null;
+          row.append(el('td', value === null ? 'missing' : '', value === null ? 'Not comparable' : `${value >= 0 ? '+' : ''}${value.toFixed(2)} ${unit}`));
+        }
+        body.append(row);
+      }
+      table.append(head, body);
+      const terrainTableWrap = el('div', 'comparison-table-wrap');
+      terrainTableWrap.append(table);
+      terrainBlock.append(terrainTableWrap);
+      const climateTemperaturePairs = comparisons.filter((comparison) => validNumber(comparison.climate_deltas?.mean_temp_c)).length;
+      const climatePrecipitationPairs = comparisons.filter((comparison) => validNumber(comparison.climate_deltas?.total_precipitation_mm_2023_2024)).length;
+      terrainBlock.append(el('p', 'measurement-provenance', `${terrainComparisons.length} of ${comparisons.length} selected pairs share a complete terrain comparison cohort. Other terrain deltas are explicitly unavailable. NASA POWER temperature deltas are available for ${climateTemperaturePairs} pairs and precipitation-total deltas for ${climatePrecipitationPairs} pairs.`));
+    }
+    section.append(terrainBlock);
+
+    const geologyBlock = el('div', 'pairwise-block');
+    geologyBlock.append(
+      el('h4', '', 'Mapped geology in shared map sources'),
+      el('p', 'measurement-provenance', 'Units are shown side by side only when both approximate points intersect the same cited map source and scale class. The very coarse “tiny” global layer is excluded. Age-range overlap or a shared boundary is arithmetic on mapped intervals, not a claim that the mapped units or sites are similar.')
+    );
+    const geologyGroups = new Map();
+    for (const comparison of comparisons) {
+      for (const match of comparison.shared_geology) {
+        if (!geologyGroups.has(match.source_key)) {
+          geologyGroups.set(match.source_key, {
+            firstUnit: match,
+            rows: []
+          });
+        }
+        geologyGroups.get(match.source_key).rows.push({
+          first: comparison.first_site,
+          second: comparison.second_site,
+          firstUnit: match.first_unit,
+          secondUnit: match.second_unit,
+          ageIntervalRelation: match.age_interval_relation
+        });
+      }
+    }
+    if (!geologyGroups.size) {
+      geologyBlock.append(el('p', 'muted', selected.length < 2
+        ? 'Select at least two sites to inspect shared-map geology context.'
+        : 'No selected pair shares the same cited map source at a comparable map scale; no geology comparison is inferred.'));
+    }
+    for (const { firstUnit, rows } of geologyGroups.values()) {
+      const group = el('div', 'shared-geology-group');
+      const citation = el('p', 'measurement-provenance', `Shared source ID ${firstUnit.source_id} · ${firstUnit.map_scale_class} map-scale class · ${firstUnit.source_reference}`);
+      if (firstUnit.source_reference_url) externalLink(citation, firstUnit.source_reference_url, 'Open source citation ↗');
+      group.append(citation);
+      const table = el('table', 'comparison-table');
+      const head = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Site pair', 'Map IDs (first / second)', 'First mapped unit / lithology / age (Ma)', 'Second mapped unit / lithology / age (Ma)', 'Source age intervals'].forEach((label) => headerRow.append(el('th', '', label)));
+      head.append(headerRow);
+      const body = document.createElement('tbody');
+      for (const pair of rows) {
+        const row = document.createElement('tr');
+        row.append(el('td', '', `${pretty(pair.first)} → ${pretty(pair.second)}`));
+        row.append(el('td', '', `${pair.firstUnit.map_id ?? 'Not reported'} / ${pair.secondUnit.map_id ?? 'Not reported'}`));
+        for (const unit of [pair.firstUnit, pair.secondUnit]) {
+          const age = ageInterval(unit);
+          const ageText = age ? `${age[0]}–${age[1]} Ma` : 'Age not reported';
+          const lithology = unit.lithology || unit.stratigraphic_name || 'Lithology not reported';
+          row.append(el('td', '', `${unit.name || 'Unnamed unit'} · ${lithology} · ${ageText}`));
+        }
+        row.append(el('td', '', pair.ageIntervalRelation));
+        body.append(row);
+      }
+      table.append(head, body);
+      const geologyTableWrap = el('div', 'comparison-table-wrap');
+      geologyTableWrap.append(table);
+      group.append(geologyTableWrap);
+      geologyBlock.append(group);
+    }
+    section.append(geologyBlock);
+    return section;
+  }
   function renderComparison() {
     const content = $('#comparison-content');
     content.replaceChildren();
@@ -157,15 +400,17 @@
       const empty = el('div', 'empty-state');
       empty.append(el('span', '', '＋'), el('strong', '', 'Select candidate sites to compare'), el('p', '', 'Use the site cards above. No rankings are produced.'));
       content.append(empty);
-      note.textContent = 'Terrain measurements are compared only within matching source/resolution and vertical-reference groups. Geologic map units are descriptive and map scales vary. No combined score or ranking is calculated.';
+      note.textContent = 'Pairwise terrain differences are calculated only within matching source/resolution and vertical-reference groups. Geology is compared only within shared mapped sources and scale classes. No combined score or ranking is calculated.';
       return;
     }
     const groups = selected.map((site) => terrainForSite(site.site)?.comparison_group).filter(Boolean);
     const uniqueGroups = new Set(groups);
     const everySiteHasTerrain = selected.every((site) => terrainForSite(site.site)?.status === 'complete');
-    note.textContent = uniqueGroups.size === 1 && everySiteHasTerrain
-      ? `All selected terrain values use ${[...uniqueGroups][0]} and the same 90 m-spaced 3×3 method; they may be compared descriptively at that scale. Geologic maps have varying scales and are shown as separate citations. Climate values share the NASA POWER 2023–2024 period. No combined score or ranking is calculated.`
-      : `Selected terrain source/resolution or vertical-reference groups differ, or windows are missing (${[...uniqueGroups].join(', ') || 'none reported'}). Values are shown with provenance but are not directly compared across groups. Geologic maps have varying scales. Climate values share the NASA POWER 2023–2024 period. No combined score or ranking is calculated.`;
+    note.textContent = selected.length === 1
+      ? 'Select at least one more site to view pairwise differences. Climate, terrain, and geology comparisons are included only when their sources, units, scales, datums, and coverage are compatible. No composite score or ranking is calculated.'
+      : uniqueGroups.size === 1 && everySiteHasTerrain
+      ? `All selected terrain values use ${[...uniqueGroups][0]} and the same 90 m-spaced 3×3 method; raw pairwise differences are shown. Geology is compared only when sites share a map source and scale class. Climate values share the NASA POWER 2023–2024 period. No composite score or ranking is calculated.`
+      : `Terrain differences are shown only for selected sites sharing a complete source/resolution/vertical-reference group; other pairs remain unavailable (${[...uniqueGroups].join(', ') || 'none reported'}). Geology is compared only within a shared map source and scale class. Climate values share the NASA POWER 2023–2024 period. No composite score or ranking is calculated.`;
     const wrap = el('div', 'comparison-table-wrap');
     const table = el('table', 'comparison-table');
     const header = document.createElement('thead');
@@ -199,7 +444,7 @@
         return `${lithology} · ${age}`;
       }],
       ['Measurement uncertainty', () => 'Not provided by current datasets'],
-      ['Similarity outcome', () => 'Insufficient comparable data']
+      ['Composite similarity score', () => 'Not calculated: no defensible weighting or normalization method']
     ];
     for (const [label, valueFor] of rows) {
       const tr = document.createElement('tr'); const th = document.createElement('td'); th.textContent = label; tr.append(th);
@@ -209,7 +454,7 @@
       }
       tbody.append(tr);
     }
-    table.append(tbody); wrap.append(table); content.append(wrap);
+    table.append(tbody); wrap.append(table); content.append(wrap, renderPairwiseComparisons(selected));
   }
   function climateValue(site, key, digits) {
     const data = findSiteClimate(site.site);
@@ -323,6 +568,10 @@
     status.textContent = `${complete}/${state.sites.length} WINDOWS`;
     status.className = complete === state.sites.length && complete ? 'tag tag-available' : 'tag tag-missing';
     area.append(el('p', 'coverage-summary', `${complete} of ${state.sites.length} sites have all 9 terrain samples. Elevation, slope, relief, and roughness are not imputed.`));
+    const compatibleCohorts = [...terrainComparisonCohorts(state.sites).values()].filter((cohort) => cohort.length > 1);
+    const comparableSiteCount = compatibleCohorts.reduce((count, cohort) => count + cohort.length, 0);
+    const comparablePairCount = compatibleCohorts.reduce((count, cohort) => count + cohort.length * (cohort.length - 1) / 2, 0);
+    area.append(el('p', 'coverage-summary', `${comparableSiteCount} sites form ${compatibleCohorts.length} shared complete terrain cohort(s), allowing ${comparablePairCount} compatible site pairs across four metrics. Other source/resolution/datum groups are not compared.`));
     for (const site of state.sites) {
       const terrain = terrainForSite(site.site);
       const details = el('details', 'coverage-detail');
@@ -383,6 +632,7 @@
     status.textContent = `${mapped}/${state.sites.length} MAPPED · ${detailed} DETAILED`;
     status.className = mapped === state.sites.length && detailed ? 'tag tag-available' : 'tag tag-missing';
     area.append(el('p', 'coverage-summary', `${detailed} sites have a large-scale map intersection; ${mapped - detailed} have regional-scale context only. Approximate point queries are not field verification.`));
+    area.append(el('p', 'coverage-summary', 'Pairwise geology context is shown only when two sites share the same cited map source and scale class; very coarse tiny-scale global layers are excluded. Shared mapped attributes do not establish matching field geology.'));
     for (const site of state.sites) {
       const geology = geologyForSite(site.site);
       const details = el('details', 'coverage-detail');
@@ -542,21 +792,24 @@
     $('#plot-status').className = 'tag tag-available';
   }
   function reportObject() {
+    const selectedSites = state.sites.filter((site) => state.selected.has(site.site));
+    const pairwiseComparisons = buildPairwiseComparisonData(selectedSites);
     return {
       report_title: 'Space Analog Explorer',
       generated_at_utc: new Date().toISOString(),
       selected_body: state.body,
-      scientific_status: 'Insufficient comparable data',
+      scientific_status: 'Descriptive pairwise comparisons only; no composite score',
       similarity_score: null,
-      interpretation: 'No validated analog outcome or ranking is calculated. Earth terrain and mapped units are descriptive measurements at approximate candidate coordinates; planetary target coordinates are absent.',
-      methodology: 'Candidate list is searched and compared descriptively only. NASA POWER Earth climate summaries and site terrain/geology evidence retain their sources, coordinates, units, processing, and coverage. Terrain metrics are comparable only within matching source/resolution and vertical-reference groups; map units retain their original scale. No cross-world similarity score is computed.',
+      interpretation: 'Raw pairwise differences are calculated only for compatible climate and terrain measurements, and mapped geology is compared only within shared map sources and scale classes. No validated analog outcome, ranking, or composite score is calculated; planetary target coordinates are absent.',
+      methodology: 'Pairwise climate deltas require the same NASA POWER source, units, period, and full valid-day coverage. Terrain deltas require complete 9/9 windows in the same recorded source/resolution/vertical-reference group. Geology attributes are shown side by side only for a shared cited map source and scale class; age-range overlap is not an analog score. No normalized, weighted, ranked, or cross-world score is computed.',
       scientific_limitations: [
         'Candidate coordinates and environment labels are approximate and unvalidated.',
         'Earth atmospheric conditions and gravity do not reproduce lunar or Martian environments.',
         'Earth geology map intersections vary in map scale and are not field-verified observations.',
         'No lunar or Mars site coordinates are supplied; LOLA/MOLA and planetary geology site measurements are unavailable.',
         '3DEP point responses do not identify a vertical datum; values are not converted.',
-        'Terrain values from different source/resolution groups are not directly compared.',
+        'Terrain pairwise differences are unavailable across different source/resolution/vertical-reference groups.',
+        'Mapped geology intersections are regional map context, not field-verified observations; tiny-scale global geology is excluded from pairwise map comparisons.',
         'NASA POWER values are gridded modeled/reanalysis-derived estimates, not in-situ observations.',
         'Per-site measurement uncertainties and confidence intervals are not supplied by the current files or computed by this MVP.',
         'The planetary globe is illustrative and contains no scientific terrain or imagery data.'
@@ -575,8 +828,11 @@
         geology_by_location: Object.fromEntries(state.sites.map((site) => [site.site, geologyForSite(site.site)?.status || 'unavailable'])),
         planetary_reference: state.terrainGeology?.planetary_reference || null,
         terrain_geology_metadata: state.terrainGeology?.metadata || null,
-        similarity: 'Not computed'
+        composite_similarity_score: 'Not computed',
+        pairwise_comparison_count: pairwiseComparisons.length
       },
+      pairwise_comparison_scope: 'Only currently selected sites; raw deltas are included where common sources, units, period, scale, and coverage permit.',
+      pairwise_comparisons: pairwiseComparisons,
       terrain_geology: state.terrainGeology,
       climate_summary: state.climateSummary,
       climate_daily_record_count: state.daily.length,
@@ -619,7 +875,7 @@
         geology?.status ?? '', unit.name ?? '', unit.lithology ?? '',
         unit.age_top_ma ?? '', unit.age_bottom_ma ?? '', unit.map_scale_class ?? '',
         unit.source_reference ?? '', geology?.query_url ?? '',
-        'Insufficient comparable data'
+        'No composite score calculated'
       ].map(csvCell).join(','));
     }
     download('space-analog-explorer-candidate-report.csv', `${lines.join('\r\n')}\r\n`, 'text/csv;charset=utf-8');
