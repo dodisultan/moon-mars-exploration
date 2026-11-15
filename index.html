@@ -1,1 +1,113 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Space Analog Explorer</title><link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"><style>body{margin:0;background:#0b1220;color:#e6eef9;font-family:system-ui}header{padding:24px;background:#13233a}h1{margin:0}main{max-width:1100px;margin:auto;padding:20px}#map{height:470px;border-radius:14px}.notice{padding:14px;background:#23364b;border-radius:10px;margin:15px 0}.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(230px,1fr));gap:12px}.card{background:#17263a;border:1px solid #34475e;padding:16px;border-radius:12px}small{color:#afc0d4}a{color:#9ad6ff}</style></head><body><header><h1>🌕 Space Analog Explorer 🔴</h1><p>Earth analog candidate explorer · NASA Space Apps 2026</p></header><main><div class="notice">Evidence status: candidate locations are not validated analog matches. No similarity scores are displayed without location-specific planetary terrain and geology measurements.</div><h2>Candidate locations</h2><div id="map"></div><h2>Site details</h2><div class="cards" id="cards"></div><h2>Scientific data</h2><p>Earth climate: run <code>download_real_climate.py</code>, then commit <code>data/climate_summary.json</code>. NASA POWER daily values are modeled/reanalysis-derived, not necessarily in-situ observations.</p><div id="climate"></div><h2>Sources</h2><p><a href="https://www.spaceappschallenge.org/2026/challenges/permanent-moon-base-locations-and-mars/">Challenge</a> · <a href="https://power.larc.nasa.gov/">NASA POWER</a> · <a href="https://pds-geosciences.wustl.edu/missions/lro/lola.htm">LOLA</a> · <a href="https://pds-geosciences.wustl.edu/missions/mgs/mola.html">MOLA</a></p></main><script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script><script>const map=L.map('map').setView([20,10],2);L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{attribution:'© OpenStreetMap contributors'}).addTo(map);fetch('sites.json').then(r=>r.json()).then(sites=>{for(const s of sites){L.marker([s.latitude,s.longitude]).addTo(map).bindPopup(`<b>${s.site}</b><br>${s.environment}<br>${s.status}`);let d=document.createElement('div');d.className='card';d.textContent=`${s.site.replaceAll('_',' ')} — ${s.country} | ${s.environment} | ${s.status}`;document.getElementById('cards').appendChild(d)}});fetch('data/climate_summary.json').then(r=>{if(!r.ok)throw Error();return r.json()}).then(data=>{let h=document.getElementById('climate');data.forEach(s=>{let d=document.createElement('div');d.className='card';d.textContent=`${s.site}: mean T=${s.mean_temp_c} °C, total rain (2023–24)=${s.total_precipitation_mm_2023_2024} mm, records=${s.days_downloaded}`;h.appendChild(d)})}).catch(()=>{document.getElementById('climate').textContent='Climate measurements not yet downloaded. Run the included downloader.'})</script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#09131c">
+  <meta name="description" content="Space Analog Explorer: an evidence-first explorer for Earth candidate environments and lunar and Martian reference data.">
+  <title>Space Analog Explorer</title>
+  <link rel="preconnect" href="https://unpkg.com">
+  <link rel="preconnect" href="https://{s}.tile.openstreetmap.org">
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+  <link rel="stylesheet" href="styles.css">
+  <script defer src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/chart.js@4.4.4/dist/chart.umd.min.js"></script>
+  <script defer src="app.js"></script>
+  <script defer src="planet-globe.js"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#" aria-label="Space Analog Explorer home"><span class="brand-mark">S</span> SPACE ANALOG EXPLORER</a>
+    <nav aria-label="Main navigation">
+      <a href="#explorer">Explorer</a><a href="#evidence">Evidence</a><a href="#method">Method</a>
+    </nav>
+    <button class="button button-quiet" id="print-report" type="button">Print / save PDF <span aria-hidden="true">↗</span></button>
+  </header>
+
+  <main>
+    <section class="hero" id="explorer">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="status-dot"></span> RESEARCH WORKSPACE <span class="eyebrow-rule"></span> DATA STATUS: PARTIAL</p>
+        <h1>Explore worlds.<br><em>Stay grounded</em> in evidence.</h1>
+        <p class="hero-intro">Compare Earth environments with lunar and Martian context—without mistaking a candidate location for a verified analog.</p>
+        <div class="hero-actions">
+          <a class="button button-primary" href="#candidates">Browse candidate sites <span aria-hidden="true">↓</span></a>
+          <button class="button button-outline" id="export-json" type="button">Export research snapshot <span aria-hidden="true">↗</span></button>
+        </div>
+      </div>
+      <aside class="evidence-callout">
+        <div class="callout-icon" aria-hidden="true">!</div>
+        <div><p class="callout-title">No validated analog matches</p><p>Site-level terrain and geology measurements are not available. Similarity is therefore <strong>Insufficient verified data</strong>—no score or ranking is calculated.</p></div>
+      </aside>
+    </section>
+
+    <section class="planet-section" aria-labelledby="planet-title">
+      <div class="section-heading">
+        <div><p class="eyebrow">01 / PLANETARY CONTEXT</p><h2 id="planet-title">Choose a world</h2></div>
+        <p class="section-note">Reference context only. Global facts do not represent local site conditions.</p>
+      </div>
+      <div class="planet-workspace">
+        <div class="planet-switcher" role="group" aria-label="Select planetary body">
+          <button class="planet-option selected" data-body="Earth" type="button" aria-pressed="true"><span class="planet-glyph earth-glyph"></span><span>Earth</span><small>8 candidates</small></button>
+          <button class="planet-option" data-body="Moon" type="button" aria-pressed="false"><span class="planet-glyph moon-glyph"></span><span>Moon</span><small>Reference only</small></button>
+          <button class="planet-option" data-body="Mars" type="button" aria-pressed="false"><span class="planet-glyph mars-glyph"></span><span>Mars</span><small>Reference only</small></button>
+        </div>
+        <div class="planet-stage">
+          <div class="planet-art earth-art" id="planet-art" role="img" aria-label="Illustrative Earth globe, not a scientific terrain model"></div>
+          <div class="planet-details"><p class="eyebrow" id="body-kicker">TERRESTRIAL CANDIDATES</p><h3 id="body-heading">Earth</h3><p id="body-description">Candidate points are approximate and unvalidated. They are a starting list for research, not a discovery catalogue.</p><div class="fact-strip" id="planet-facts"></div></div>
+          <div class="globe-controls" role="group" aria-label="3D globe controls">
+            <button type="button" id="globe-rotation" aria-pressed="true" disabled>Pause rotation</button>
+            <button type="button" id="globe-zoom-out" aria-label="Zoom out" disabled>−</button>
+            <button type="button" id="globe-zoom-in" aria-label="Zoom in" disabled>+</button>
+            <button type="button" id="globe-reset" disabled>Reset view</button>
+          </div>
+          <p class="globe-note" id="globe-status">Loading 3D illustration… No satellite imagery, terrain, or site-level measurements are rendered.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="candidate-section" id="candidates">
+      <div class="section-heading candidate-heading">
+        <div><p class="eyebrow">02 / FIELD CANDIDATES</p><h2>Places to investigate <span class="count-pill" id="candidate-count">8</span></h2></div>
+        <div class="toolbar">
+          <label class="search-box"><span aria-hidden="true">⌕</span><input id="site-search" type="search" placeholder="Search listed candidates…" autocomplete="off" aria-label="Search listed candidates"></label>
+          <label class="select-wrap"><span class="visually-hidden">Filter candidate role</span><select id="role-filter"><option value="all">All site types</option><option value="known_reference">Known references</option><option value="exploratory_candidate">Exploratory</option></select></label>
+          <button class="button button-outline button-small" id="export-csv" type="button">Download CSV</button>
+        </div>
+      </div>
+      <p class="scope-banner"><span aria-hidden="true">↳</span> Showing the supplied candidate list only. “Known reference” is a dataset label, not a validation or score.</p>
+      <div class="explorer-grid">
+        <div class="map-frame"><div id="map" aria-label="Map of Earth candidate locations"></div><div class="map-credit">Approximate candidate coordinates · © OpenStreetMap contributors</div><div id="map-fallback" class="map-fallback" hidden></div></div>
+        <div class="site-list" id="site-list" aria-live="polite"></div>
+      </div>
+      <div class="selection-bar"><span><strong id="selected-count">0</strong> of <span id="selection-total">8</span> selected for comparison</span><button class="button button-primary button-small" id="compare-button" type="button" disabled>Compare selected <span aria-hidden="true">↓</span></button></div>
+    </section>
+
+    <section class="comparison-section" id="comparison">
+      <div class="section-heading"><div><p class="eyebrow">03 / COMPARISON</p><h2>Evidence side by side</h2></div><p class="section-note">Only measured values are plotted. Missing datasets remain visible as missing.</p></div>
+      <div class="comparison-grid">
+        <div class="panel comparison-panel"><div class="panel-heading"><div><p class="eyebrow">SELECTED SITES</p><h3>Comparison dashboard</h3></div><span class="panel-icon">↔</span></div><div id="comparison-content" class="comparison-content"><div class="empty-state"><span>＋</span><strong>Select candidate sites to compare</strong><p>Use the site cards above. No rankings are produced.</p></div></div></div>
+        <div class="panel outcome-panel"><p class="eyebrow">EXPLAINABLE OUTCOME</p><div class="outcome-mark" aria-hidden="true">?</div><h3>Insufficient<br>verified data</h3><p>We cannot compute a scientifically defensible site similarity result from the supplied data. Candidate-specific terrain and geology measurements are missing.</p><div class="outcome-rule"></div><p class="outcome-foot">No score, ordering, or analog claim is inferred from global planetary facts.</p></div>
+      </div>
+    </section>
+
+    <section class="evidence-section" id="evidence">
+      <div class="section-heading"><div><p class="eyebrow">04 / DATA COVERAGE</p><h2>What the evidence can say</h2></div><p class="section-note">Coverage is reported from files that exist now. No values are inferred to fill gaps.</p></div>
+      <div class="coverage-grid">
+        <article class="panel coverage-card"><div class="coverage-top"><span class="coverage-icon">◒</span><span class="tag tag-available" id="climate-status">CHECKING FILE</span></div><h3>Earth climate</h3><p>NASA POWER daily point data · 2023–2024. Gridded modeled/reanalysis-derived estimates, not in-situ station observations.</p><div id="climate-content" class="coverage-content"><p class="muted">Checking for <code>data/earth/nasa_power_daily_2023_2024.csv</code> and summary files…</p></div></article>
+        <article class="panel coverage-card"><div class="coverage-top"><span class="coverage-icon">⌁</span><span class="tag tag-missing">NOT PROCESSED</span></div><h3>Terrain</h3><p>Earth SRTM / USGS 3DEP, lunar LOLA, and Mars MOLA are listed as possible sources.</p><div class="coverage-content"><div class="missing-row"><span>Site-level elevation, slope, relief</span><b>Missing</b></div><div class="missing-row"><span>Comparable regional rasters</span><b>Missing</b></div><small>Source inventory documents availability; regional extraction and processing are not done.</small></div></article>
+        <article class="panel coverage-card"><div class="coverage-top"><span class="coverage-icon">✳</span><span class="tag tag-missing">NOT PROCESSED</span></div><h3>Geology &amp; similarity</h3><p>Comparable mapped units and validated site-level measurements are required for an explainable match.</p><div class="coverage-content"><div class="missing-row"><span>Site-specific geological units</span><b>Missing</b></div><div class="missing-row"><span>Validated similarity result</span><b>Not computed</b></div><small>Planetary global reference facts are not site climate or terrain measurements.</small></div></article>
+      </div>
+      <div class="plot-panel panel"><div class="panel-heading"><div><p class="eyebrow">AVAILABLE MEASUREMENTS</p><h3>Climate series</h3></div><span class="tag tag-available" id="plot-status">AWAITING DATA</span></div><div class="chart-wrap" id="chart-wrap"><canvas id="climate-chart" aria-label="NASA POWER daily temperature time series" role="img"></canvas><div class="chart-empty" id="chart-empty">Climate series will appear here when the real NASA POWER daily CSV is present.</div></div><p class="chart-caption">NASA POWER daily T2M temperature · °C · 2023–2024 · source grid estimate at listed approximate coordinates. Missing or invalid observations are omitted, never imputed.</p></div>
+      <details class="source-inventory panel"><summary>Open source inventory <span>Evidence sources &amp; processing notes ↗</span></summary><div class="source-list" id="source-list"><p class="muted">Loading source inventory…</p></div></details>
+    </section>
+
+    <section class="method-section" id="method">
+      <div class="method-copy"><p class="eyebrow">05 / METHOD &amp; LIMITATIONS</p><h2>Curiosity, with<br><em>clear boundaries.</em></h2><p>This MVP is a transparent research index—not a site-selection recommendation. Its candidate coordinates and environment labels are approximate and have not been independently validated.</p><a class="text-link" href="METHODS.md">Read methods, sources &amp; setup <span aria-hidden="true">↗</span></a></div>
+      <div class="method-list"><div><span>01</span><p><strong>Candidate is not a match.</strong> The supplied locations are unvalidated approximate candidates, not discoveries or validated analogs.</p></div><div><span>02</span><p><strong>Global is not local.</strong> Planetary facts provide context only and are not comparable to site-specific climate or terrain.</p></div><div><span>03</span><p><strong>Missing means missing.</strong> No synthetic fallback, silent fill, or numerical similarity score is used.</p></div></div>
+    </section>
+  </main>
+  <footer><span>SPACE ANALOG EXPLORER</span><span>Evidence status is shown as supplied; no scientific validation implied.</span><a href="README.md">Project &amp; data notes ↗</a></footer>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>

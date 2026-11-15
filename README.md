@@ -1,30 +1,44 @@
-# Space Analog Explorer — GitHub-ready starter
+# Space Analog Explorer
 
-## What is ready
-- A working static map website (`index.html`) for GitHub Pages.
-- Eight geographic **candidate points**, not scientifically validated analogs (`candidate_sites.csv`, `sites.json`). Coordinates are approximate reference points, not precise field survey locations.
-- Published planetary reference figures (`planetary_facts.csv`). These are **global** facts, not site-specific terrain measurements.
-- Source inventory (`data_sources.csv`).
-- A runnable NASA POWER daily data downloader (`download_real_climate.py`) for 2023–2024, producing actual values only if the API succeeds.
-- A methods and limitations document (`PROJECT_GUIDE.docx`).
+A static, GitHub Pages-compatible research MVP for exploring a supplied list of Earth candidate environments alongside global Moon and Mars reference facts. It is an evidence index, **not** a site-selection recommendation.
 
-## How to deploy
-1. Extract this ZIP. Upload **the files and folders inside** to the root of a public GitHub repository.
-2. Repository Settings → Pages → Deploy from branch → main / root.
-3. Open the published Pages URL. Map and candidate cards work immediately.
-4. On a computer or Google Colab, run `python download_real_climate.py` in the extracted folder (Colab: `%cd /content/Space_Analog_Complete_Starter` first). Upload the resulting `data/` folder to the same repository.
-5. Reload GitHub Pages. Climate cards appear when `data/climate_summary.json` exists.
+Challenge: [Permanent Moon Base Locations and Mars](https://www.spaceappschallenge.org/2026/challenges/permanent-moon-base-locations-and-mars/).
 
-## Scientific caution
-- There are NO invented site-specific temperatures, slopes, elevations, geological scores, or matching percentages.
-- The 2023–24 rainfall sum is over the full two-year period, **not** annual rainfall.
-- NASA POWER is a gridded modeled/reanalysis-derived data service; not a local station reading.
-- Moon/Mars global properties are not sufficient to infer a terrestrial analog score. For real rankings, derive comparable slope, relief, roughness, lithology and target-specific metrics from LOLA/MOLA/SRTM/Copernicus DEM and geology datasets; normalize and document uncertainty.
-- Moon vacuum, gravity, radiation and Mars atmospheric pressure cannot be reproduced by an outdoor Earth location.
+## What is included
 
-## Sources
-Official challenge: https://www.spaceappschallenge.org/2026/challenges/permanent-moon-base-locations-and-mars/
-NASA POWER API: https://power.larc.nasa.gov/docs/tutorials/service-data-request/api/
-LOLA: https://pds-geosciences.wustl.edu/missions/lro/lola.htm
-MOLA: https://pds-geosciences.wustl.edu/missions/mgs/mola.html
-USGS: https://astrogeology.usgs.gov/
+- Responsive interactive 3D planet illustration (drag, rotate, zoom, reset), candidate map and cards, search and role filters, comparison table, and JSON / CSV / print-to-PDF report controls. The globe is illustrative, not satellite imagery or a terrain model.
+- Eight approximate candidate points from `sites.json` and `candidate_sites.csv`. All remain `candidate_not_scored`; the included UI does not call them validated analogs or discoveries.
+- Global planetary reference facts in `planetary_facts.csv`, a source inventory in `data_sources.csv`, and data-processing limitations in [METHODS.md](METHODS.md).
+- `download_real_climate.py`, which requests real daily NASA POWER values for listed Earth points for 2023–2024. The script validates response fields, preserves unavailable values as empty CSV cells / JSON `null`, and writes per-site failures and source/unit metadata under `data/earth/`.
+
+The current repository has **no downloaded climate data** and no processed site-specific terrain or geology measurements. The page therefore reports **Insufficient verified data** and never calculates a similarity score. External Three.js, Leaflet, Chart.js, OpenStreetMap tiles, and fonts are progressive enhancements; the candidate list and evidence notices remain available if a CDN or data file is unavailable.
+
+## Run locally
+
+Serve this directory over HTTP (the page uses `fetch`, so opening `index.html` directly as a `file://` URL is not sufficient). For example:
+
+```sh
+python -m http.server 8000
+```
+
+Open `http://localhost:8000`. To request NASA POWER data, use Python 3:
+
+```sh
+python download_real_climate.py
+```
+
+The downloader writes actual returned values to `data/earth/nasa_power_daily_2023_2024.csv`, aggregate values and variable-specific coverage to `data/earth/climate_summary.csv` and `data/earth/climate_summary.json`, source/units/location metadata to `data/earth/climate_metadata.json`, and request or validation failures to `data/earth/download_errors.json`. API requests require network access. A partial failure exits nonzero while preserving successful sites and documenting failures. Inspect coverage before interpreting aggregates. The precipitation sum is the observed total over the full 2023–2024 period, not an annual total. `days_downloaded` counts dates returned by the service; per-variable valid-day fields indicate measurement coverage.
+
+## Deploy to GitHub Pages
+
+The included `.github/workflows/pages.yml` publishes the repository root on pushes to `main` and on manual dispatch. In repository Settings → Pages, select **GitHub Actions** as the build and deployment source. No package install or build step is required.
+
+## Validate changes
+
+```sh
+python -m unittest discover -s tests -v
+python -m py_compile download_real_climate.py
+node --check app.js
+```
+
+See [METHODS.md](METHODS.md) for source scope, known limitations, and the conditions required before scientific comparisons would be appropriate.
