@@ -1,0 +1,9 @@
+site,latitude,longitude,days_downloaded,days_requested,mean_temp_c,mean_temp_unit,total_precipitation_mm_2023_2024,mean_humidity_pct,mean_wind_ms,daily_precipitation_unit,total_precipitation_unit,humidity_unit,wind_unit,valid_days_t2m,valid_days_precipitation,valid_days_humidity,valid_days_wind,source,source_url,period
+atacama_chile,-23.5,-69.3,731,731,18.166,degC,2.95,28.8,2.789,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+death_valley_usa,36.46,-116.87,731,731,19.676,degC,265.76,30.529,2.127,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+haughton_canada,75.38,-89.67,731,731,-14.186,degC,767.74,94.944,3.072,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+wadi_rum_jordan,29.58,35.42,731,731,18.865,degC,74.2,43.355,2.722,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+iceland_highlands,64.5,-18.5,731,731,-2.473,degC,2762.27,92.756,5.186,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+dallol_ethiopia,14.24,40.3,731,731,25.715,degC,1913.61,55.472,2.242,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+tabuk_saudi_arabia,28.38,36.58,731,731,22.343,degC,93.3,33.261,2.72,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31
+mauna_loa_hawaii,19.48,-155.60,731,731,18.415,degC,3633.62,83.895,2.051,mm/day,mm,%,m/s,731,731,731,731,NASA POWER daily API,https://power.larc.nasa.gov/api/temporal/daily/point,2023-01-01 to 2024-12-31

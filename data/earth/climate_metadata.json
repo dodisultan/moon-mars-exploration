@@ -1,0 +1,77 @@
+{
+  "dataset": "NASA POWER daily point data",
+  "source_url": "https://power.larc.nasa.gov/api/temporal/daily/point",
+  "data_character": "Gridded modeled/reanalysis-derived estimates; not in-situ station observations.",
+  "requested_period": "2023-01-01 to 2024-12-31",
+  "uncertainty": "No site-level uncertainty or confidence interval is derived by this application.",
+  "parameters": {
+    "T2M": {
+      "unit": "degC"
+    },
+    "T2M_MAX": {
+      "unit": "degC"
+    },
+    "T2M_MIN": {
+      "unit": "degC"
+    },
+    "PRECTOTCORR": {
+      "unit": "mm/day"
+    },
+    "RH2M": {
+      "unit": "%"
+    },
+    "WS2M": {
+      "unit": "m/s"
+    },
+    "ALLSKY_SFC_SW_DWN": {
+      "unit": "MJ/m^2/day"
+    },
+    "PS": {
+      "unit": "kPa"
+    }
+  },
+  "candidate_locations": [
+    {
+      "site": "atacama_chile",
+      "latitude": "-23.5",
+      "longitude": "-69.3"
+    },
+    {
+      "site": "death_valley_usa",
+      "latitude": "36.46",
+      "longitude": "-116.87"
+    },
+    {
+      "site": "haughton_canada",
+      "latitude": "75.38",
+      "longitude": "-89.67"
+    },
+    {
+      "site": "wadi_rum_jordan",
+      "latitude": "29.58",
+      "longitude": "35.42"
+    },
+    {
+      "site": "iceland_highlands",
+      "latitude": "64.5",
+      "longitude": "-18.5"
+    },
+    {
+      "site": "dallol_ethiopia",
+      "latitude": "14.24",
+      "longitude": "40.3"
+    },
+    {
+      "site": "tabuk_saudi_arabia",
+      "latitude": "28.38",
+      "longitude": "36.58"
+    },
+    {
+      "site": "mauna_loa_hawaii",
+      "latitude": "19.48",
+      "longitude": "-155.60"
+    }
+  ],
+  "missing_value_policy": "NASA POWER sentinels (<= -990) and unavailable values are null/blank; no imputation.",
+  "precipitation_aggregate": "Sum of valid returned PRECTOTCORR daily values over the full requested period; not annualized."
+}
