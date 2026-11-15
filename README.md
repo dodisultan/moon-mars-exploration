@@ -11,7 +11,7 @@ Challenge: [Permanent Moon Base Locations and Mars](https://www.spaceappschallen
 - Global planetary reference facts in `planetary_facts.csv`, a source inventory in `data_sources.csv`, and data-processing limitations in [METHODS.md](METHODS.md).
 - `download_real_climate.py`, which requests real daily NASA POWER values for listed Earth points for 2023–2024. The script validates response fields, preserves unavailable values as empty CSV cells / JSON `null`, and writes per-site failures and source/unit metadata under `data/earth/`.
 
-The current repository has **no downloaded climate data** and no processed site-specific terrain or geology measurements. The page therefore reports **Insufficient verified data** and never calculates a similarity score. External Three.js, Leaflet, Chart.js, OpenStreetMap tiles, and fonts are progressive enhancements; the candidate list and evidence notices remain available if a CDN or data file is unavailable.
+The repository includes a NASA POWER daily climate-data snapshot for the eight listed candidate coordinates, covering 2023–2024. These are gridded modeled/reanalysis-derived estimates, not in-situ measurements. No site-specific terrain or geology measurements are processed, so the page continues to report **Insufficient verified data** and never calculates a similarity score. External Three.js, Leaflet, Chart.js, OpenStreetMap tiles, and fonts are progressive enhancements; the candidate list and evidence notices remain available if a CDN or data file is unavailable.
 
 ## Run locally
 

@@ -181,14 +181,14 @@ def write_outputs(rows, errors, output_dir):
     with (output_dir / "nasa_power_daily_2023_2024.csv").open(
         "w", newline="", encoding="utf-8"
     ) as target:
-        writer = csv.DictWriter(target, fieldnames=CSV_FIELDS)
+        writer = csv.DictWriter(target, fieldnames=CSV_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(rows)
     summary = summarize_rows(rows)
     with (output_dir / "climate_summary.csv").open(
         "w", newline="", encoding="utf-8"
     ) as target:
-        writer = csv.DictWriter(target, fieldnames=SUMMARY_FIELDS)
+        writer = csv.DictWriter(target, fieldnames=SUMMARY_FIELDS, lineterminator="\n")
         writer.writeheader()
         writer.writerows(summary)
     (output_dir / "climate_summary.json").write_text(
