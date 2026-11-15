@@ -42,7 +42,7 @@ jobs:
       - name: Assemble static site
         run: |
           mkdir -p _site
-          cp index.html styles.css app.js planet-globe.js sites.json candidate_sites.csv planetary_facts.csv data_sources.csv download_real_climate.py README.md METHODS.md _site/
+          cp index.html styles.css app.js planet-globe.js sites.json candidate_sites.csv planetary_facts.csv data_sources.csv download_real_climate.py process_site_terrain_geology.py README.md METHODS.md _site/
           if [ -d data ]; then cp -R data _site/data; fi
       - name: Upload static site
         uses: actions/upload-pages-artifact@v3

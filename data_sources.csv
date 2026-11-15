@@ -1,10 +1,12 @@
 body,dataset,variable,official_url,notes
 Earth,NASA POWER daily,temperature precipitation humidity wind solar,https://power.larc.nasa.gov/docs/services/api/temporal/daily/,script downloads actual numeric data
-Earth,NASA SRTM,elevation,https://www.earthdata.nasa.gov/data/instruments/srtm,download DEM separately
-Earth,USGS 3DEP,elevation,https://www.usgs.gov/3d-elevation-program,US coverage
-Earth,USGS geological maps,rock units,https://ngmdb.usgs.gov/,regional map matching needed
-Moon,LOLA,elevation,https://imbrium.mit.edu/,regional DEMs available
-Moon,USGS lunar geology,geological units,https://astrogeology.usgs.gov/,map digitization needed
-Mars,MOLA,elevation,https://pds-geosciences.wustl.edu/missions/mgs/megdr.html,download planetary raster
-Mars,USGS Mars geological map,geological units,https://astrogeology.usgs.gov/,regional interpretation needed
+Earth,NASA SRTM,elevation,https://www.earthdata.nasa.gov/data/instruments/srtm,Not used in current processing; non-US candidate points use Copernicus GLO-90
+Earth,USGS 3DEP via EPQS,elevation and 3x3 terrain derivatives,https://epqs.nationalmap.gov/v1/docs,US sites; elevation units are metres; raster ID and service resolution code retained per sample
+Earth,Copernicus DEM GLO-90 2021 via Open-Meteo,elevation and 3x3 terrain derivatives,https://open-meteo.com/en/docs/elevation-api,Global 90 m elevation API; derived products use a documented 3x3 point window
+Earth,USGS geological maps via Macrostrat,point-intersected mapped units lithology age,https://macrostrat.org/api/geologic_units/map,Per-point map scale and original map citation retained; approximate point and scale limit interpretation
+Earth,Macrostrat global geologic map compilation,regional units lithology age,https://macrostrat.org/api/geologic_units/map,Only where available mapped units include original source citations and map scale
+Moon,LOLA global DEM products,elevation,https://imbrium.mit.edu/,No lunar target coordinates are supplied; no site-specific extraction or product resolution is claimed
+Moon,USGS Unified Geologic Map of the Moon,geological units,https://pubs.usgs.gov/sim/3464/,Global map reference only; no lunar target coordinates are supplied
+Mars,MOLA MEGDR L3,site elevation,https://pds-geosciences.wustl.edu/missions/mgs/megdr.html,No Mars target coordinates are supplied; no site-specific extraction is claimed
+Mars,USGS Global Geologic Map of Mars,geological units,https://pubs.usgs.gov/sim/3292/,Global map reference only; no Mars target coordinates are supplied
 Mars,NASA Mars fact sheet,pressure temperature composition,https://nssdc.gsfc.nasa.gov/planetary/factsheet/marsfact.html,global reference not location values

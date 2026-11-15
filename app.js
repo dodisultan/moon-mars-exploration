@@ -1,5 +1,5 @@
 (() => {
-  const state = { sites: [], facts: [], sources: [], climateSummary: [], daily: [], downloadErrors: [], climateMetadata: null, selected: new Set(), body: 'Earth', map: null, markers: new Map(), chart: null, tilesUnavailable: false };
+  const state = { sites: [], facts: [], sources: [], climateSummary: [], daily: [], downloadErrors: [], climateMetadata: null, terrainGeology: null, selected: new Set(), body: 'Earth', map: null, markers: new Map(), chart: null, tilesUnavailable: false };
   const $ = (selector) => document.querySelector(selector);
   const el = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -10,6 +10,7 @@
   const pretty = (value) => String(value || '').replaceAll('_', ' ').replace(/\b\w/g, (letter) => letter.toUpperCase()).replace(/\bUsa\b/g, 'USA');
   const validNumber = (value) => value !== '' && value !== null && value !== undefined && Number.isFinite(Number(value));
   const validPowerValue = (value) => validNumber(value) && Number(value) > -990;
+  const roundDelta = (value) => Number(value.toFixed(6));
 
   function parseCSV(text) {
     const rows = [];
@@ -148,16 +149,268 @@
   function findSiteClimate(siteId) {
     return state.climateSummary.find((item) => item.site === siteId) || null;
   }
+  const terrainPairMetrics = [
+    { key: 'elevation_m', label: 'Elevation', unit: 'm' },
+    { key: 'slope_degrees', label: 'Slope', unit: '°' },
+    { key: 'relief_m', label: 'Relief', unit: 'm' },
+    { key: 'roughness_stddev_m', label: 'Roughness SD', unit: 'm' }
+  ];
+  function hasCompleteComparableTerrain(site) {
+    const terrain = terrainForSite(site.site);
+    return terrain?.status === 'complete'
+      && terrain.metrics?.valid_samples === 9
+      && terrain.metrics?.total_samples === 9
+      && Boolean(terrain.comparison_group)
+      && terrainPairMetrics.every(({ key }) => validNumber(terrain.metrics[key]));
+  }
+  function terrainComparisonCohorts(sites) {
+    const cohorts = new Map();
+    for (const site of sites) {
+      if (!hasCompleteComparableTerrain(site)) continue;
+      const terrain = terrainForSite(site.site);
+      if (!cohorts.has(terrain.comparison_group)) cohorts.set(terrain.comparison_group, []);
+      cohorts.get(terrain.comparison_group).push(site);
+    }
+    return cohorts;
+  }
+  function pairwiseSites(sites) {
+    const pairs = [];
+    for (let first = 0; first < sites.length; first += 1) {
+      for (let second = first + 1; second < sites.length; second += 1) {
+        pairs.push([sites[first], sites[second]]);
+      }
+    }
+    return pairs;
+  }
+  function comparableClimateDeltas(first, second) {
+    const a = findSiteClimate(first.site);
+    const b = findSiteClimate(second.site);
+    if (!a || !b || a.source !== b.source || a.period !== b.period
+        || a.days_requested !== b.days_requested || a.days_downloaded !== a.days_requested
+        || b.days_downloaded !== b.days_requested) return null;
+    const deltas = {};
+    if (a.mean_temp_unit === b.mean_temp_unit
+        && a.valid_days_t2m === a.days_requested && b.valid_days_t2m === b.days_requested
+        && validNumber(a.mean_temp_c) && validNumber(b.mean_temp_c)) {
+      deltas.mean_temp_c = roundDelta(Number(b.mean_temp_c) - Number(a.mean_temp_c));
+    }
+    if (a.total_precipitation_unit === b.total_precipitation_unit
+        && a.valid_days_precipitation === a.days_requested
+        && b.valid_days_precipitation === b.days_requested
+        && validNumber(a.total_precipitation_mm_2023_2024)
+        && validNumber(b.total_precipitation_mm_2023_2024)) {
+      deltas.total_precipitation_mm_2023_2024 = roundDelta(
+        Number(b.total_precipitation_mm_2023_2024) - Number(a.total_precipitation_mm_2023_2024)
+      );
+    }
+    return deltas;
+  }
+  function geologySourceKey(unit) {
+    if (!unit.source_id || !unit.source_reference
+        || !['large', 'medium', 'small'].includes(unit.map_scale_class)) return null;
+    return JSON.stringify([String(unit.source_id), unit.map_scale_class, unit.source_reference]);
+  }
+  function comparableGeologyUnits(site) {
+    return (geologyForSite(site.site)?.map_units || [])
+      .filter((unit) => geologySourceKey(unit))
+      .map((unit) => ({ unit, key: geologySourceKey(unit) }));
+  }
+  function sharedGeologyMapUnits(first, second) {
+    const matches = [];
+    for (const a of comparableGeologyUnits(first)) {
+      for (const b of comparableGeologyUnits(second)) {
+        if (a.key === b.key) matches.push({ first: a.unit, second: b.unit, key: a.key });
+      }
+    }
+    return matches;
+  }
+  function ageInterval(unit) {
+    if (!validNumber(unit.age_top_ma) || !validNumber(unit.age_bottom_ma)) return null;
+    const younger = Number(unit.age_top_ma);
+    const older = Number(unit.age_bottom_ma);
+    return younger <= older ? [younger, older] : null;
+  }
+  function ageOverlap(first, second) {
+    const a = ageInterval(first);
+    const b = ageInterval(second);
+    if (!a || !b) return 'Age not reported';
+    const younger = Math.max(a[0], b[0]);
+    const older = Math.min(a[1], b[1]);
+    if (younger > older) return 'No overlap';
+    if (younger === older) return `Ranges meet at ${younger.toFixed(2)} Ma boundary`;
+    return `Overlap: ${younger.toFixed(2)}–${older.toFixed(2)} Ma`;
+  }
+  function buildPairwiseComparisonData(sites) {
+    return pairwiseSites(sites).map(([first, second]) => {
+      const a = terrainForSite(first.site);
+      const b = terrainForSite(second.site);
+      const terrainComparable = hasCompleteComparableTerrain(first)
+        && hasCompleteComparableTerrain(second)
+        && a.comparison_group === b.comparison_group;
+      const terrainDeltas = terrainComparable
+        ? Object.fromEntries(terrainPairMetrics.map(({ key }) => [
+          key, roundDelta(Number(b.metrics[key]) - Number(a.metrics[key]))
+        ]))
+        : null;
+      return {
+        first_site: first.site,
+        second_site: second.site,
+        climate_deltas: comparableClimateDeltas(first, second),
+        terrain_comparison_group: terrainComparable ? a.comparison_group : null,
+        terrain_deltas: terrainDeltas,
+        shared_geology: sharedGeologyMapUnits(first, second).map(({ first: unitA, second: unitB, key }) => ({
+          source_key: key,
+          source_id: unitA.source_id,
+          map_scale_class: unitA.map_scale_class,
+          source_reference: unitA.source_reference,
+          source_reference_url: unitA.source_reference_url || null,
+          first_unit: {
+            map_id: unitA.map_id,
+            name: unitA.name || null,
+            lithology: unitA.lithology || unitA.stratigraphic_name || null,
+            age_top_ma: ageInterval(unitA)?.[0] ?? null,
+            age_bottom_ma: ageInterval(unitA)?.[1] ?? null
+          },
+          second_unit: {
+            map_id: unitB.map_id,
+            name: unitB.name || null,
+            lithology: unitB.lithology || unitB.stratigraphic_name || null,
+            age_top_ma: ageInterval(unitB)?.[0] ?? null,
+            age_bottom_ma: ageInterval(unitB)?.[1] ?? null
+          },
+          age_interval_relation: ageOverlap(unitA, unitB)
+        }))
+      };
+    });
+  }
+  function renderPairwiseComparisons(selected) {
+    const section = el('div', 'pairwise-comparisons');
+    const terrainBlock = el('div', 'pairwise-block');
+    terrainBlock.append(
+      el('h4', '', 'Comparable pairwise differences'),
+      el('p', 'measurement-provenance', 'Δ = second listed site minus first. Raw differences are shown only for complete 9/9 terrain windows in the same recorded source/resolution/vertical-reference group, and for matching NASA POWER source, units, period, and full valid-day coverage. These are measurements, not normalized similarity scores.')
+    );
+    const comparisons = buildPairwiseComparisonData(selected);
+    const terrainComparisons = comparisons.filter((comparison) => comparison.terrain_deltas);
+    if (!comparisons.length) {
+      terrainBlock.append(el('p', 'muted', 'Select at least two sites to compare; no pairwise differences are calculated for a single site.'));
+    } else {
+      const table = el('table', 'comparison-table');
+      const head = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Site pair (Δ second − first)', 'Mean T2M Δ (°C)', '2023–24 precipitation total Δ (mm)', ...terrainPairMetrics.map(({ label, unit }) => `${label} Δ (${unit})`)]
+        .forEach((label) => headerRow.append(el('th', '', label)));
+      head.append(headerRow);
+      const body = document.createElement('tbody');
+      for (const comparison of comparisons) {
+        const row = document.createElement('tr');
+        row.append(el('td', '', `${pretty(comparison.first_site)} → ${pretty(comparison.second_site)}`));
+        const climate = comparison.climate_deltas;
+        const climateFields = [
+          ['mean_temp_c', '°C'],
+          ['total_precipitation_mm_2023_2024', 'mm']
+        ];
+        for (const [key, unit] of climateFields) {
+          const value = climate?.[key];
+          row.append(el('td', value === undefined ? 'missing' : '', value === undefined ? 'Not comparable' : `${value >= 0 ? '+' : ''}${value.toFixed(2)} ${unit}`));
+        }
+        for (const { key, unit } of terrainPairMetrics) {
+          const value = comparison.terrain_deltas?.[key] ?? null;
+          row.append(el('td', value === null ? 'missing' : '', value === null ? 'Not comparable' : `${value >= 0 ? '+' : ''}${value.toFixed(2)} ${unit}`));
+        }
+        body.append(row);
+      }
+      table.append(head, body);
+      const terrainTableWrap = el('div', 'comparison-table-wrap');
+      terrainTableWrap.append(table);
+      terrainBlock.append(terrainTableWrap);
+      const climateTemperaturePairs = comparisons.filter((comparison) => validNumber(comparison.climate_deltas?.mean_temp_c)).length;
+      const climatePrecipitationPairs = comparisons.filter((comparison) => validNumber(comparison.climate_deltas?.total_precipitation_mm_2023_2024)).length;
+      terrainBlock.append(el('p', 'measurement-provenance', `${terrainComparisons.length} of ${comparisons.length} selected pairs share a complete terrain comparison cohort. Other terrain deltas are explicitly unavailable. NASA POWER temperature deltas are available for ${climateTemperaturePairs} pairs and precipitation-total deltas for ${climatePrecipitationPairs} pairs.`));
+    }
+    section.append(terrainBlock);
+
+    const geologyBlock = el('div', 'pairwise-block');
+    geologyBlock.append(
+      el('h4', '', 'Mapped geology in shared map sources'),
+      el('p', 'measurement-provenance', 'Units are shown side by side only when both approximate points intersect the same cited map source and scale class. The very coarse “tiny” global layer is excluded. Age-range overlap or a shared boundary is arithmetic on mapped intervals, not a claim that the mapped units or sites are similar.')
+    );
+    const geologyGroups = new Map();
+    for (const comparison of comparisons) {
+      for (const match of comparison.shared_geology) {
+        if (!geologyGroups.has(match.source_key)) {
+          geologyGroups.set(match.source_key, {
+            firstUnit: match,
+            rows: []
+          });
+        }
+        geologyGroups.get(match.source_key).rows.push({
+          first: comparison.first_site,
+          second: comparison.second_site,
+          firstUnit: match.first_unit,
+          secondUnit: match.second_unit,
+          ageIntervalRelation: match.age_interval_relation
+        });
+      }
+    }
+    if (!geologyGroups.size) {
+      geologyBlock.append(el('p', 'muted', selected.length < 2
+        ? 'Select at least two sites to inspect shared-map geology context.'
+        : 'No selected pair shares the same cited map source at a comparable map scale; no geology comparison is inferred.'));
+    }
+    for (const { firstUnit, rows } of geologyGroups.values()) {
+      const group = el('div', 'shared-geology-group');
+      const citation = el('p', 'measurement-provenance', `Shared source ID ${firstUnit.source_id} · ${firstUnit.map_scale_class} map-scale class · ${firstUnit.source_reference}`);
+      if (firstUnit.source_reference_url) externalLink(citation, firstUnit.source_reference_url, 'Open source citation ↗');
+      group.append(citation);
+      const table = el('table', 'comparison-table');
+      const head = document.createElement('thead');
+      const headerRow = document.createElement('tr');
+      ['Site pair', 'Map IDs (first / second)', 'First mapped unit / lithology / age (Ma)', 'Second mapped unit / lithology / age (Ma)', 'Source age intervals'].forEach((label) => headerRow.append(el('th', '', label)));
+      head.append(headerRow);
+      const body = document.createElement('tbody');
+      for (const pair of rows) {
+        const row = document.createElement('tr');
+        row.append(el('td', '', `${pretty(pair.first)} → ${pretty(pair.second)}`));
+        row.append(el('td', '', `${pair.firstUnit.map_id ?? 'Not reported'} / ${pair.secondUnit.map_id ?? 'Not reported'}`));
+        for (const unit of [pair.firstUnit, pair.secondUnit]) {
+          const age = ageInterval(unit);
+          const ageText = age ? `${age[0]}–${age[1]} Ma` : 'Age not reported';
+          const lithology = unit.lithology || unit.stratigraphic_name || 'Lithology not reported';
+          row.append(el('td', '', `${unit.name || 'Unnamed unit'} · ${lithology} · ${ageText}`));
+        }
+        row.append(el('td', '', pair.ageIntervalRelation));
+        body.append(row);
+      }
+      table.append(head, body);
+      const geologyTableWrap = el('div', 'comparison-table-wrap');
+      geologyTableWrap.append(table);
+      group.append(geologyTableWrap);
+      geologyBlock.append(group);
+    }
+    section.append(geologyBlock);
+    return section;
+  }
   function renderComparison() {
     const content = $('#comparison-content');
     content.replaceChildren();
+    const note = $('#comparison-provenance');
     const selected = state.sites.filter((site) => state.selected.has(site.site));
     if (!selected.length) {
       const empty = el('div', 'empty-state');
       empty.append(el('span', '', '＋'), el('strong', '', 'Select candidate sites to compare'), el('p', '', 'Use the site cards above. No rankings are produced.'));
       content.append(empty);
+      note.textContent = 'Pairwise terrain differences are calculated only within matching source/resolution and vertical-reference groups. Geology is compared only within shared mapped sources and scale classes. No combined score or ranking is calculated.';
       return;
     }
+    const groups = selected.map((site) => terrainForSite(site.site)?.comparison_group).filter(Boolean);
+    const uniqueGroups = new Set(groups);
+    const everySiteHasTerrain = selected.every((site) => terrainForSite(site.site)?.status === 'complete');
+    note.textContent = selected.length === 1
+      ? 'Select at least one more site to view pairwise differences. Climate, terrain, and geology comparisons are included only when their sources, units, scales, datums, and coverage are compatible. No composite score or ranking is calculated.'
+      : uniqueGroups.size === 1 && everySiteHasTerrain
+      ? `All selected terrain values use ${[...uniqueGroups][0]} and the same 90 m-spaced 3×3 method; raw pairwise differences are shown. Geology is compared only when sites share a map source and scale class. Climate values share the NASA POWER 2023–2024 period. No composite score or ranking is calculated.`
+      : `Terrain differences are shown only for selected sites sharing a complete source/resolution/vertical-reference group; other pairs remain unavailable (${[...uniqueGroups].join(', ') || 'none reported'}). Geology is compared only within a shared map source and scale class. Climate values share the NASA POWER 2023–2024 period. No composite score or ranking is calculated.`;
     const wrap = el('div', 'comparison-table-wrap');
     const table = el('table', 'comparison-table');
     const header = document.createElement('thead');
@@ -175,9 +428,23 @@
       ['NASA POWER mean T2M (°C)', (site) => climateValue(site, 'mean_temp_c', 2)],
       ['NASA POWER 2023–24 precip. total (mm)', (site) => climateValue(site, 'total_precipitation_mm_2023_2024', 2)],
       ['NASA POWER dates returned / requested', (site) => climateDays(site)],
-      ['Site terrain / geology', () => 'Missing'],
+      ['Terrain elevation (m)', (site) => terrainMetric(site, 'elevation_m')],
+      ['Terrain slope (degrees)', (site) => terrainMetric(site, 'slope_degrees')],
+      ['Terrain local relief (m)', (site) => terrainMetric(site, 'relief_m')],
+      ['Terrain roughness, 3×3 standard deviation (m)', (site) => terrainMetric(site, 'roughness_stddev_m')],
+      ['Terrain source/resolution group', (site) => terrainForSite(site.site)?.comparison_group || null],
+      ['Mapped geology (unit · scale)', geologySummary],
+      ['Mapped lithology / age (Ma)', (site) => {
+        const unit = geologyForSite(site.site)?.map_units?.[0];
+        if (!unit) return null;
+        const lithology = unit.lithology || 'Lithology not reported';
+        const age = validNumber(unit.age_top_ma) && validNumber(unit.age_bottom_ma)
+          ? `${unit.age_top_ma}–${unit.age_bottom_ma} Ma`
+          : unit.geologic_age_name || 'Age not reported';
+        return `${lithology} · ${age}`;
+      }],
       ['Measurement uncertainty', () => 'Not provided by current datasets'],
-      ['Similarity outcome', () => 'Insufficient verified data']
+      ['Composite similarity score', () => 'Not calculated: no defensible weighting or normalization method']
     ];
     for (const [label, valueFor] of rows) {
       const tr = document.createElement('tr'); const th = document.createElement('td'); th.textContent = label; tr.append(th);
@@ -187,7 +454,7 @@
       }
       tbody.append(tr);
     }
-    table.append(tbody); wrap.append(table); content.append(wrap);
+    table.append(tbody); wrap.append(table); content.append(wrap, renderPairwiseComparisons(selected));
   }
   function climateValue(site, key, digits) {
     const data = findSiteClimate(site.site);
@@ -198,6 +465,21 @@
     const data = findSiteClimate(site.site);
     if (!data || !validNumber(data.days_downloaded)) return null;
     return `${data.days_downloaded} / ${data.days_requested ?? 731}`;
+  }
+  function terrainForSite(siteId) {
+    return state.terrainGeology?.locations?.[siteId]?.terrain || null;
+  }
+  function geologyForSite(siteId) {
+    return state.terrainGeology?.locations?.[siteId]?.geology || null;
+  }
+  function terrainMetric(site, key, digits = 2) {
+    const value = terrainForSite(site.site)?.metrics?.[key];
+    return validNumber(value) ? Number(value).toFixed(digits) : null;
+  }
+  function geologySummary(site) {
+    const geology = geologyForSite(site.site);
+    const unit = geology?.map_units?.[0];
+    return unit ? `${unit.name || 'Unnamed mapped unit'} · ${unit.map_scale_class || 'scale not reported'} map scale` : null;
   }
   function renderFacts() {
     const facts = state.facts.filter((fact) => fact.body === state.body);
@@ -254,6 +536,135 @@
         $('#map-fallback').textContent = 'Interactive map unavailable (mapping library could not be loaded). Candidate cards and coordinates remain available below.';
       }
       if (state.map) window.setTimeout(() => state.map.invalidateSize(), 50);
+    }
+  }
+  function externalLink(parent, url, label) {
+    try {
+      const target = new URL(url);
+      if (target.protocol !== 'https:') throw new Error('Source URL must use HTTPS');
+      const link = el('a', 'source-link', label);
+      link.href = target.href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      parent.append(link);
+      return true;
+    } catch {
+      parent.append(el('span', 'muted', 'Source URL not provided'));
+      return false;
+    }
+  }
+  function renderTerrain() {
+    const area = $('#terrain-content');
+    const status = $('#terrain-status');
+    area.replaceChildren();
+    const locations = state.terrainGeology?.locations;
+    if (!locations) {
+      status.textContent = 'NO DATA FILE';
+      status.className = 'tag tag-missing';
+      area.append(el('p', 'muted', 'Terrain data is unavailable. The live source extraction has not been run or its output file could not be loaded; no measurements are inferred.'));
+      return;
+    }
+    const complete = state.sites.filter((site) => terrainForSite(site.site)?.status === 'complete').length;
+    status.textContent = `${complete}/${state.sites.length} WINDOWS`;
+    status.className = complete === state.sites.length && complete ? 'tag tag-available' : 'tag tag-missing';
+    area.append(el('p', 'coverage-summary', `${complete} of ${state.sites.length} sites have all 9 terrain samples. Elevation, slope, relief, and roughness are not imputed.`));
+    const compatibleCohorts = [...terrainComparisonCohorts(state.sites).values()].filter((cohort) => cohort.length > 1);
+    const comparableSiteCount = compatibleCohorts.reduce((count, cohort) => count + cohort.length, 0);
+    const comparablePairCount = compatibleCohorts.reduce((count, cohort) => count + cohort.length * (cohort.length - 1) / 2, 0);
+    area.append(el('p', 'coverage-summary', `${comparableSiteCount} sites form ${compatibleCohorts.length} shared complete terrain cohort(s), allowing ${comparablePairCount} compatible site pairs across four metrics. Other source/resolution/datum groups are not compared.`));
+    for (const site of state.sites) {
+      const terrain = terrainForSite(site.site);
+      const details = el('details', 'coverage-detail');
+      const elevation = terrainMetric(site, 'elevation_m');
+      details.append(el('summary', '', `${pretty(site.site)} · ${elevation === null ? 'elevation unavailable' : `${elevation} m`}`));
+      if (!terrain) {
+        details.append(el('p', 'muted', 'No terrain record for this candidate.'));
+        area.append(details);
+        continue;
+      }
+      const metrics = terrain.metrics || {};
+      const rows = [
+        ['Elevation', metrics.elevation_m, 'm'],
+        ['Slope (Horn 3×3)', metrics.slope_degrees, '°'],
+        ['Relief (3×3 max − min)', metrics.relief_m, 'm'],
+        ['Roughness (3×3 population standard deviation)', metrics.roughness_stddev_m, 'm']
+      ];
+      for (const [label, value, unit] of rows) {
+        details.append(el('div', 'measurement-row', `${label}: ${validNumber(value) ? `${Number(value).toFixed(2)} ${unit}` : 'Unavailable'}`));
+      }
+      details.append(el('p', 'measurement-provenance', `${terrain.metrics?.valid_samples ?? 0}/${terrain.metrics?.total_samples ?? 9} valid samples · ${terrain.sampling?.sample_spacing_m ?? '—'} m spacing · ${terrain.sampling?.footprint_m ?? '—'} m window · ${terrain.source?.dataset || 'Source not recorded'}`));
+      details.append(el('p', 'measurement-provenance', `Approximate input point ${Number(site.latitude).toFixed(5)}°, ${Number(site.longitude).toFixed(5)}° · ${terrain.source?.horizontal_crs || 'CRS not reported'} · vertical datum: ${terrain.source?.vertical_datum || 'not reported'}`));
+      if (terrain.source?.native_resolution_m) {
+        details.append(el('p', 'measurement-provenance', `Native source resolution: ${terrain.source.native_resolution_m} m · ${terrain.source.native_resolution_note || ''}`));
+      } else if (terrain.source?.native_resolution_note) {
+        details.append(el('p', 'measurement-provenance', terrain.source.native_resolution_note));
+      }
+      const links = el('div', 'measurement-links');
+      if (terrain.source?.product_page) externalLink(links, terrain.source.product_page, 'Product documentation ↗');
+      if (terrain.source?.provider_url) externalLink(links, terrain.source.provider_url, 'Elevation API documentation ↗');
+      else if (terrain.samples?.[0]?.source_url) externalLink(links, terrain.samples[0].source_url, 'Sample query ↗');
+      details.append(links);
+      const samples = el('details', 'sample-detail');
+      samples.append(el('summary', '', 'View exact 3×3 sample coordinates and elevations'));
+      for (const sample of terrain.samples || []) {
+        samples.append(el('div', 'sample-row', `${sample.latitude}°, ${sample.longitude}° · ${validNumber(sample.elevation_m) ? `${Number(sample.elevation_m).toFixed(2)} m` : 'Missing'}`));
+      }
+      details.append(samples);
+      area.append(details);
+    }
+    if (state.terrainGeology.metadata?.errors?.length) {
+      area.append(el('p', 'muted', `${state.terrainGeology.metadata.errors.length} source error(s) are recorded in the exported evidence snapshot.`));
+    }
+  }
+  function renderGeology() {
+    const area = $('#geology-content');
+    const status = $('#geology-status');
+    area.replaceChildren();
+    const locations = state.terrainGeology?.locations;
+    if (!locations) {
+      status.textContent = 'NO DATA FILE';
+      status.className = 'tag tag-missing';
+      area.append(el('p', 'muted', 'Mapped geology is unavailable. No units, rock types, or ages are inferred.'));
+      return;
+    }
+    const detailed = state.sites.filter((site) => geologyForSite(site.site)?.status === 'detailed_map_unit_available').length;
+    const mapped = state.sites.filter((site) => (geologyForSite(site.site)?.map_units || []).length).length;
+    status.textContent = `${mapped}/${state.sites.length} MAPPED · ${detailed} DETAILED`;
+    status.className = mapped === state.sites.length && detailed ? 'tag tag-available' : 'tag tag-missing';
+    area.append(el('p', 'coverage-summary', `${detailed} sites have a large-scale map intersection; ${mapped - detailed} have regional-scale context only. Approximate point queries are not field verification.`));
+    area.append(el('p', 'coverage-summary', 'Pairwise geology context is shown only when two sites share the same cited map source and scale class; very coarse tiny-scale global layers are excluded. Shared mapped attributes do not establish matching field geology.'));
+    for (const site of state.sites) {
+      const geology = geologyForSite(site.site);
+      const details = el('details', 'coverage-detail');
+      const firstUnit = geology?.map_units?.[0];
+      details.append(el('summary', '', `${pretty(site.site)} · ${firstUnit?.map_scale_class || geology?.status || 'no map unit'}`));
+      if (!geology?.map_units?.length) {
+        details.append(el('p', 'muted', geology?.error || 'No mapped unit returned for this approximate coordinate.'));
+        if (geology?.query_url) externalLink(details, geology.query_url, 'Open map query ↗');
+        area.append(details);
+        continue;
+      }
+      details.append(el('p', 'measurement-provenance', `${geology.dataset || 'Map product not specified'} · API v${geology.api_version ?? 'not reported'} · ${geology.license || 'license not reported'}`));
+      details.append(el('p', 'measurement-provenance', geology.interpretation || 'Map-scale and coordinate limitations apply.'));
+      for (const unit of geology.map_units) {
+        const unitBlock = el('div', 'geology-unit');
+        unitBlock.append(el('strong', '', unit.name || 'Unnamed mapped unit'));
+        const lithology = unit.lithology || unit.stratigraphic_name || 'Lithology not reported';
+        unitBlock.append(el('p', '', `Rock type / description: ${lithology}`));
+        const age = validNumber(unit.age_top_ma) && validNumber(unit.age_bottom_ma)
+          ? `${unit.age_top_ma}–${unit.age_bottom_ma} Ma · ${unit.geologic_age_name || 'interval name not reported'}`
+          : unit.geologic_age_name || 'Geological age not reported';
+        unitBlock.append(el('p', '', `Mapped age: ${age} · ${unit.map_scale_class || 'map scale not reported'} scale · map ${unit.map_id ?? 'ID not reported'}`));
+        if (unit.description) unitBlock.append(el('p', 'measurement-provenance', unit.description));
+        if (unit.source_reference) unitBlock.append(el('p', 'measurement-provenance', unit.source_reference));
+        if (unit.source_reference_url) externalLink(unitBlock, unit.source_reference_url, 'Original map / DOI ↗');
+        else unitBlock.append(el('span', 'muted', 'Original map URL not supplied in citation'));
+        details.append(unitBlock);
+      }
+      const links = el('div', 'measurement-links');
+      externalLink(links, geology.query_url, 'Open exact map query ↗');
+      details.append(links);
+      area.append(details);
     }
   }
   function renderClimate() {
@@ -381,18 +792,24 @@
     $('#plot-status').className = 'tag tag-available';
   }
   function reportObject() {
+    const selectedSites = state.sites.filter((site) => state.selected.has(site.site));
+    const pairwiseComparisons = buildPairwiseComparisonData(selectedSites);
     return {
       report_title: 'Space Analog Explorer',
       generated_at_utc: new Date().toISOString(),
       selected_body: state.body,
-      scientific_status: 'Insufficient verified data',
+      scientific_status: 'Descriptive pairwise comparisons only; no composite score',
       similarity_score: null,
-      interpretation: 'No validated analog outcome or ranking is calculated. Site-specific terrain and geology measurements are missing.',
-      methodology: 'Candidate list is searched and compared descriptively only. NASA POWER Earth climate summaries, if present, are reported with source, location, unit, period, and coverage; global planetary facts are context only. No cross-world similarity score is computed because compatible site-level terrain and geology measurements are unavailable.',
+      interpretation: 'Raw pairwise differences are calculated only for compatible climate and terrain measurements, and mapped geology is compared only within shared map sources and scale classes. No validated analog outcome, ranking, or composite score is calculated; planetary target coordinates are absent.',
+      methodology: 'Pairwise climate deltas require the same NASA POWER source, units, period, and full valid-day coverage. Terrain deltas require complete 9/9 windows in the same recorded source/resolution/vertical-reference group. Geology attributes are shown side by side only for a shared cited map source and scale class; age-range overlap is not an analog score. No normalized, weighted, ranked, or cross-world score is computed.',
       scientific_limitations: [
         'Candidate coordinates and environment labels are approximate and unvalidated.',
         'Earth atmospheric conditions and gravity do not reproduce lunar or Martian environments.',
-        'No site-level elevation, slope, relief, roughness, or mapped geology products are processed.',
+        'Earth geology map intersections vary in map scale and are not field-verified observations.',
+        'No lunar or Mars site coordinates are supplied; LOLA/MOLA and planetary geology site measurements are unavailable.',
+        '3DEP point responses do not identify a vertical datum; values are not converted.',
+        'Terrain pairwise differences are unavailable across different source/resolution/vertical-reference groups.',
+        'Mapped geology intersections are regional map context, not field-verified observations; tiny-scale global geology is excluded from pairwise map comparisons.',
         'NASA POWER values are gridded modeled/reanalysis-derived estimates, not in-situ observations.',
         'Per-site measurement uncertainties and confidence intervals are not supplied by the current files or computed by this MVP.',
         'The planetary globe is illustrative and contains no scientific terrain or imagery data.'
@@ -406,10 +823,17 @@
         nasa_power_daily_records: state.daily.length,
         nasa_power_download_errors: state.downloadErrors,
         nasa_power_metadata: state.climateMetadata,
-        terrain: 'Not processed; site-level measurements missing',
-        geology: 'Not processed; site-specific mapped units missing',
-        similarity: 'Not computed'
+        terrain_complete_locations: state.sites.filter((site) => terrainForSite(site.site)?.status === 'complete').map((site) => site.site),
+        terrain_missing_locations: state.sites.filter((site) => terrainForSite(site.site)?.status !== 'complete').map((site) => site.site),
+        geology_by_location: Object.fromEntries(state.sites.map((site) => [site.site, geologyForSite(site.site)?.status || 'unavailable'])),
+        planetary_reference: state.terrainGeology?.planetary_reference || null,
+        terrain_geology_metadata: state.terrainGeology?.metadata || null,
+        composite_similarity_score: 'Not computed',
+        pairwise_comparison_count: pairwiseComparisons.length
       },
+      pairwise_comparison_scope: 'Only currently selected sites; raw deltas are included where common sources, units, period, scale, and coverage permit.',
+      pairwise_comparisons: pairwiseComparisons,
+      terrain_geology: state.terrainGeology,
       climate_summary: state.climateSummary,
       climate_daily_record_count: state.daily.length,
       climate_daily_records: state.daily
@@ -427,10 +851,14 @@
   }
   function csvCell(value) { return `"${String(value ?? '').replaceAll('"', '""')}"`; }
   function exportCSV() {
-    const columns = ['site', 'latitude', 'longitude', 'coordinate_precision', 'candidate_source_file', 'country', 'environment', 'role', 'status', 'selected_for_comparison', 'nasa_power_mean_temp_c', 'nasa_power_mean_temp_unit', 'nasa_power_total_precipitation_mm_2023_2024', 'nasa_power_total_precipitation_unit', 'nasa_power_dates_returned', 'nasa_power_dates_requested', 'nasa_power_valid_days_t2m', 'nasa_power_valid_days_precipitation', 'nasa_power_source', 'nasa_power_source_url', 'nasa_power_period', 'similarity_outcome'];
+    const columns = ['site', 'latitude', 'longitude', 'coordinate_precision', 'candidate_source_file', 'country', 'environment', 'role', 'status', 'selected_for_comparison', 'nasa_power_mean_temp_c', 'nasa_power_mean_temp_unit', 'nasa_power_total_precipitation_mm_2023_2024', 'nasa_power_total_precipitation_unit', 'nasa_power_dates_returned', 'nasa_power_dates_requested', 'nasa_power_valid_days_t2m', 'nasa_power_valid_days_precipitation', 'nasa_power_source', 'nasa_power_source_url', 'nasa_power_period', 'terrain_status', 'terrain_elevation_m', 'terrain_slope_degrees', 'terrain_relief_m', 'terrain_roughness_stddev_m', 'terrain_dataset', 'terrain_resolution_group', 'terrain_native_resolution', 'terrain_sample_spacing_m', 'terrain_window_m', 'terrain_source_url', 'geology_status', 'geology_top_unit', 'geology_lithology', 'geology_age_top_ma', 'geology_age_bottom_ma', 'geology_map_scale', 'geology_citation', 'geology_query_url', 'similarity_outcome'];
     const lines = [columns.map(csvCell).join(',')];
     for (const site of state.sites) {
       const summary = findSiteClimate(site.site) || {};
+      const terrain = terrainForSite(site.site);
+      const geology = geologyForSite(site.site);
+      const unit = geology?.map_units?.[0] || {};
+      const source = terrain?.source || {};
       lines.push([
         site.site, site.latitude, site.longitude, 'Approximate input coordinate', 'candidate_sites.csv / sites.json',
         site.country, site.environment, site.role, site.status, state.selected.has(site.site),
@@ -438,7 +866,16 @@
         summary.total_precipitation_unit ?? 'mm',
         summary.days_downloaded ?? '', summary.days_requested ?? '', summary.valid_days_t2m ?? '',
         summary.valid_days_precipitation ?? '', summary.source ?? '', summary.source_url ?? '', summary.period ?? '',
-        'Insufficient verified data'
+        terrain?.status ?? '', terrain?.metrics?.elevation_m ?? '', terrain?.metrics?.slope_degrees ?? '',
+        terrain?.metrics?.relief_m ?? '', terrain?.metrics?.roughness_stddev_m ?? '',
+        source.dataset ?? '', terrain?.comparison_group ?? '',
+        source.native_resolution_m ?? source.native_resolution_note ?? '',
+        terrain?.sampling?.sample_spacing_m ?? '', terrain?.sampling?.footprint_m ?? '',
+        terrain?.samples?.[0]?.source_url ?? '',
+        geology?.status ?? '', unit.name ?? '', unit.lithology ?? '',
+        unit.age_top_ma ?? '', unit.age_bottom_ma ?? '', unit.map_scale_class ?? '',
+        unit.source_reference ?? '', geology?.query_url ?? '',
+        'No composite score calculated'
       ].map(csvCell).join(','));
     }
     download('space-analog-explorer-candidate-report.csv', `${lines.join('\r\n')}\r\n`, 'text/csv;charset=utf-8');
@@ -447,7 +884,8 @@
     const results = await Promise.allSettled([
       loadJSON('sites.json'), loadCSV('planetary_facts.csv'), loadCSV('data_sources.csv'),
       loadJSON('data/earth/climate_summary.json'), loadCSV('data/earth/climate_summary.csv'), loadCSV('data/earth/nasa_power_daily_2023_2024.csv'),
-      loadJSON('data/earth/download_errors.json'), loadJSON('data/earth/climate_metadata.json')
+      loadJSON('data/earth/download_errors.json'), loadJSON('data/earth/climate_metadata.json'),
+      loadJSON('data/processed/site_terrain_geology.json')
     ]);
     if (results[0].status === 'fulfilled') state.sites = results[0].value;
     else state.siteLoadError = true;
@@ -459,9 +897,10 @@
     state.daily = results[5].status === 'fulfilled' ? results[5].value : [];
     state.downloadErrors = results[6].status === 'fulfilled' && Array.isArray(results[6].value) ? results[6].value : [];
     state.climateMetadata = results[7].status === 'fulfilled' ? results[7].value : null;
+    state.terrainGeology = results[8].status === 'fulfilled' ? results[8].value : null;
     makeMap();
     if (state.map) state.sites.forEach(addMarker);
-    renderSites(); renderFacts(); renderClimate(); renderSources(); updateSelection();
+    renderSites(); renderFacts(); renderTerrain(); renderGeology(); renderClimate(); renderSources(); updateSelection();
   }
   function bindEvents() {
     let sourceWasOpen = false;
