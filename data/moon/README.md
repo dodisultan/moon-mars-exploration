@@ -1,3 +1,3 @@
 # Lunar data status
 
-No LOLA elevation grids or lunar site-specific measurements are included or processed. LOLA is listed in the repository source inventory as a potential data source only. Global planetary reference facts in `../../planetary_facts.csv` are not local lunar terrain measurements.
+The candidate list contains no lunar target location or coordinates. Therefore no LOLA elevation or USGS lunar geology unit is reported as a site measurement. The project cites the NASA LOLA data archive and the USGS Unified Geologic Map of the Moon as potential regional products, but no raster or map point has been selected or processed. Global planetary facts in `../../planetary_facts.csv` remain reference context, not local lunar terrain measurements.

@@ -1,0 +1,1547 @@
+{
+  "metadata": {
+    "generated_at_utc": "2026-11-15T14:24:20Z",
+    "coordinate_source": "sites.json; coordinates cross-checked against candidate_sites.csv",
+    "candidate_coordinate_status": "Approximate and unvalidated; retained without rounding or relocation",
+    "terrain_sample_spacing_m": 90.0,
+    "global_elevation_request_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892",
+    "comparison_method": "Show measured values side by side, with source and resolution group. Numeric terrain comparisons require the same source/resolution, vertical reference, and 3x3 sampling method. USGS EPQS locations remain separate because its response omits the vertical datum. Geology map units are descriptive and their source scales differ. No weighted score or rank is calculated.",
+    "errors": [
+
+    ]
+  },
+  "locations": {
+    "atacama_chile": {
+      "coordinates": {
+        "latitude": -23.5,
+        "longitude": -69.3,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "Copernicus DEM 2021 release GLO-90",
+          "dataset_version": "GLO-90, 2021 release",
+          "source_url": "https://api.open-meteo.com/v1/elevation",
+          "product_page": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "provider": "Open-Meteo Elevation API",
+          "provider_url": "https://open-meteo.com/en/docs/elevation-api",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "EGM2008 orthometric heights per Copernicus DEM product; no conversion applied",
+          "native_resolution_m": 90,
+          "native_resolution_note": "Copernicus GLO-90; point values are returned by the Open-Meteo API",
+          "comparison_group": "copernicus-dem-glo-90-2021"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": 2112.0,
+          "slope_degrees": 4.6906290350148225,
+          "relief_m": 17.0,
+          "roughness_stddev_m": 6.202349216423495
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": -23.49919152,
+            "longitude": -69.3008816,
+            "elevation_m": 2103.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": -23.49919152,
+            "longitude": -69.3,
+            "elevation_m": 2112.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": -23.49919152,
+            "longitude": -69.2991184,
+            "elevation_m": 2118.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": -23.5,
+            "longitude": -69.3008816,
+            "elevation_m": 2103.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": -23.5,
+            "longitude": -69.3,
+            "elevation_m": 2112.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": -23.5,
+            "longitude": -69.2991184,
+            "elevation_m": 2118.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": -23.50080848,
+            "longitude": -69.3008816,
+            "elevation_m": 2101.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": -23.50080848,
+            "longitude": -69.3,
+            "elevation_m": 2113.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": -23.50080848,
+            "longitude": -69.2991184,
+            "elevation_m": 2115.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          }
+        ],
+        "comparison_group": "copernicus-dem-glo-90-2021"
+      },
+      "geology": {
+        "status": "regional_map_unit_only",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=-23.5&lng=-69.3",
+        "query_coordinates": {
+          "latitude": -23.5,
+          "longitude": -69.3,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 4974787,
+            "source_id": 1087,
+            "name": "Paleogene Rhyolitic",
+            "stratigraphic_name": null,
+            "lithology": "Rhyolite",
+            "description": null,
+            "geologic_age_name": "Paleogene",
+            "age_top_ma": 23.04,
+            "age_bottom_ma": 66.0,
+            "map_scale_class": "small",
+            "source_reference": "Gómez, J., Schobbenhaus, C. & Montes, N.E., compilers. Geological Map of South America 2018. Scale 1:5 000 000. Commission for the Geological Map of the World (CGMW), Colombian Geological Survey and Geological Survey of Brazil. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3186157,
+            "source_id": 154,
+            "name": "Cenozoic sedimentary rocks",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary rocks",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "death_valley_usa": {
+      "coordinates": {
+        "latitude": 36.46,
+        "longitude": -116.87,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "USGS 3D Elevation Program (3DEP), Elevation Point Query Service",
+          "dataset_version": "Live USGS service; point-query response supplies raster IDs and resolution codes, not a named release",
+          "source_url": "https://epqs.nationalmap.gov/v1/json",
+          "product_page": "https://www.usgs.gov/3d-elevation-program",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "Not identified in the EPQS point response; no datum conversion applied",
+          "resolution_codes": [
+            "1"
+          ],
+          "raster_ids": [
+            104889
+          ],
+          "native_resolution_note": "Service-reported resolution code is preserved per point; the API response does not identify its unit.",
+          "comparison_group": "usgs-3dep-resolution-1-datum-unreported:death_valley_usa"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": -58.718132019,
+          "slope_degrees": 0.8421009903226704,
+          "relief_m": 3.7031021119999963,
+          "roughness_stddev_m": 1.0884050876955638
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 36.46080848,
+            "longitude": -116.87100523,
+            "elevation_m": -60.709976196,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.87100523&y=36.46080848&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 36.46080848,
+            "longitude": -116.87,
+            "elevation_m": -59.530151367,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.87000000&y=36.46080848&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 36.46080848,
+            "longitude": -116.86899477,
+            "elevation_m": -58.214694977,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.86899477&y=36.46080848&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 36.46,
+            "longitude": -116.87100523,
+            "elevation_m": -59.753437042,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.87100523&y=36.46000000&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 36.46,
+            "longitude": -116.87,
+            "elevation_m": -58.718132019,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.87000000&y=36.46000000&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 36.46,
+            "longitude": -116.86899477,
+            "elevation_m": -57.617652893,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.86899477&y=36.46000000&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 36.45919152,
+            "longitude": -116.87100523,
+            "elevation_m": -59.020786285,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.87100523&y=36.45919152&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 36.45919152,
+            "longitude": -116.87,
+            "elevation_m": -58.025001526,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.87000000&y=36.45919152&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 36.45919152,
+            "longitude": -116.86899477,
+            "elevation_m": -57.006874084,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-116.86899477&y=36.45919152&units=Meters&output=json",
+            "raster_id": 104889,
+            "resolution_code": 1
+          }
+        ],
+        "comparison_group": "usgs-3dep-resolution-1-datum-unreported:death_valley_usa"
+      },
+      "geology": {
+        "status": "detailed_map_unit_available",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=36.46&lng=-116.87",
+        "query_coordinates": {
+          "latitude": 36.46,
+          "longitude": -116.87,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 3498493,
+            "source_id": 259,
+            "name": "Alluvial deposits in recently active channels",
+            "stratigraphic_name": null,
+            "lithology": null,
+            "description": "Gravel, sand, and silt; intermixed and interbed- ded; unconsolidated, poorly to moderately well sorted, poorly to well bedded, locally crossbedded. Clasts are commonly angular to subrounded; locally well rounded",
+            "geologic_age_name": "Holocene",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 0.0117,
+            "map_scale_class": "large",
+            "source_reference": "Fridrich, C.J., Thompson, R.A., Slate, J.L., Berry, M.E., and Machette, M.N. Geologic map of the southern Funeral Mountains including nearby groundwater discharge sites in Death Valley National Park, California and Nevada. U.S. Geological Survey Scientific Investigations Map 3151. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 2885167,
+            "source_id": 133,
+            "name": "Quaternary alluvium and marine deposits",
+            "stratigraphic_name": "Temescal Formation; Modesto Formation; Victor Formation; Alameda Formation; Aromas Red Sands; Bautista Beds; Brawley Formation; Borrego Formation; Burnt Canyon Breccia; Cabezon Fanglomerate; Campus Formation; Casitas Formation; Chemehuevi Formation; Corcoran Clay; Cushenbury Springs Formation; Dos Picachos Gravels; Dripping Springs Formation; Frazier Mountain Formation; Friant Formation; Harold Formation; Heights Fanglomerate; Hookton Formation; Huichica Formation; La Habra Formation; Manix Lake Beds; Mohawk Lake Beds; Montezuma Formation; Nadeau Gravel; Ocotillo Conglomerate; Orcutt Formation; Pacoima Formation; Pauba Formation; Peckham Formation; Pinto Formation; Resting Springs Formation; Riverbank Formation; Rohnerville Formation; San Dimas Formation; Shoemaker Gravel; Temecula Arkose; Battery Formation; Bay Point Formation; Colma Formation; Lindavista Formation; Lomita Marl; Merritt Sand; Millerton Formation; Palos Verdes Sand; San Pedro Formation; Sweitzer Formation; Timms Point Silt",
+            "lithology": "Major:{coarse alluvium}, Minor:{fine alluvium}",
+            "description": "Alluvium, lake, playa, and terrace deposits; unconsolidated and semi-consolidated. Mostly nonmarine, but includes marine deposits near the coast.",
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0117,
+            "age_bottom_ma": 10.5265,
+            "map_scale_class": "medium",
+            "source_reference": "Horton, J.D., C.A. San Juan, and D.B. Stoeser. The State Geologic Map Compilation (SGMC) geodatabase of the conterminous United States. doi: 10.3133/ds1052. U.S. Geological Survey Data Series 1052. ",
+            "source_reference_url": "https://doi.org/10.3133/ds1052"
+          },
+          {
+            "map_id": 4551979,
+            "source_id": 548,
+            "name": "Alluvium, lake, playa, and terrace deposits",
+            "stratigraphic_name": "Alluvium, lake, playa, and terrace deposits",
+            "lithology": "unconsolidated",
+            "description": "Alluvium, lake, playa, and terrace deposits; unconsolidated and semi-consolidated. Mostly nonmarine, but includes marine deposits near the coast",
+            "geologic_age_name": "Quaternary",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.58,
+            "map_scale_class": "medium",
+            "source_reference": "Jennings, C.W., Gutierrez, C., Bryant, W., Saucedo, G., and Wills, C., 2010, Geologic Map of California: California Geological Survey Geologic Data Map GDM-2.2010. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 964154,
+            "source_id": 7,
+            "name": "Quaternary sedimentary",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "small",
+            "source_reference": "Garrity, C.P., and Soller, D.R.,. Database of the Geologic Map of North America: adapted from the map by J.C. Reed, Jr. and others (2005). U.S. Geological Survey Data Series 424 . ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3185380,
+            "source_id": 154,
+            "name": "Cenozoic sedimentary rocks",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary rocks",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 23.03,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "haughton_canada": {
+      "coordinates": {
+        "latitude": 75.38,
+        "longitude": -89.67,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "Copernicus DEM 2021 release GLO-90",
+          "dataset_version": "GLO-90, 2021 release",
+          "source_url": "https://api.open-meteo.com/v1/elevation",
+          "product_page": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "provider": "Open-Meteo Elevation API",
+          "provider_url": "https://open-meteo.com/en/docs/elevation-api",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "EGM2008 orthometric heights per Copernicus DEM product; no conversion applied",
+          "native_resolution_m": 90,
+          "native_resolution_note": "Copernicus GLO-90; point values are returned by the Open-Meteo API",
+          "comparison_group": "copernicus-dem-glo-90-2021"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": 132.0,
+          "slope_degrees": 2.1134668976257345,
+          "relief_m": 10.0,
+          "roughness_stddev_m": 3.1071403231354586
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 75.38080848,
+            "longitude": -89.67320308,
+            "elevation_m": 130.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 75.38080848,
+            "longitude": -89.67,
+            "elevation_m": 132.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 75.38080848,
+            "longitude": -89.66679692,
+            "elevation_m": 135.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 75.38,
+            "longitude": -89.67320308,
+            "elevation_m": 130.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 75.38,
+            "longitude": -89.67,
+            "elevation_m": 132.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 75.38,
+            "longitude": -89.66679692,
+            "elevation_m": 135.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 75.37919152,
+            "longitude": -89.67320308,
+            "elevation_m": 130.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 75.37919152,
+            "longitude": -89.67,
+            "elevation_m": 134.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 75.37919152,
+            "longitude": -89.66679692,
+            "elevation_m": 140.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          }
+        ],
+        "comparison_group": "copernicus-dem-glo-90-2021"
+      },
+      "geology": {
+        "status": "regional_map_unit_only",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=75.38&lng=-89.67",
+        "query_coordinates": {
+          "latitude": 75.38,
+          "longitude": -89.67,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 941479,
+            "source_id": 7,
+            "name": "Neogene sedimentary",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary",
+            "description": null,
+            "geologic_age_name": "Neogene",
+            "age_top_ma": 2.588,
+            "age_bottom_ma": 23.03,
+            "map_scale_class": "small",
+            "source_reference": "Garrity, C.P., and Soller, D.R.,. Database of the Geologic Map of North America: adapted from the map by J.C. Reed, Jr. and others (2005). U.S. Geological Survey Data Series 424 . ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 650885,
+            "source_id": 2,
+            "name": "unclassified; Impact structure",
+            "stratigraphic_name": null,
+            "lithology": "impact breccia, impact melt rock, crater fill",
+            "description": "Canada Shield, Greenland Shield, and cover, Foxe Basin, Prince Regent Basin",
+            "geologic_age_name": "Miocene",
+            "age_top_ma": 5.333,
+            "age_bottom_ma": 23.03,
+            "map_scale_class": "small",
+            "source_reference": "J.C. Harrison, M.R. St-Onge, O.V. Petrov, S.I. Strelnikov, B.G. Lopatin, \nF.H. Wilson, S. Tella, D. Paul, T. Lynds, S.P. Shokalsky, C.K. Hults, \nS. Bergman, H.F. Jepsen, and A. Solli. Geological map of the Arctic. doi:10.4095/287868. Geological Survey of Canada Map 2159A. ",
+            "source_reference_url": "https://doi.org/10.4095/287868"
+          },
+          {
+            "map_id": 3189765,
+            "source_id": 154,
+            "name": "Paleozoic sedimentary rocks",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary rocks",
+            "description": null,
+            "geologic_age_name": null,
+            "age_top_ma": 443.8,
+            "age_bottom_ma": 541.0,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "wadi_rum_jordan": {
+      "coordinates": {
+        "latitude": 29.58,
+        "longitude": 35.42,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "Copernicus DEM 2021 release GLO-90",
+          "dataset_version": "GLO-90, 2021 release",
+          "source_url": "https://api.open-meteo.com/v1/elevation",
+          "product_page": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "provider": "Open-Meteo Elevation API",
+          "provider_url": "https://open-meteo.com/en/docs/elevation-api",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "EGM2008 orthometric heights per Copernicus DEM product; no conversion applied",
+          "native_resolution_m": 90,
+          "native_resolution_note": "Copernicus GLO-90; point values are returned by the Open-Meteo API",
+          "comparison_group": "copernicus-dem-glo-90-2021"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": 982.0,
+          "slope_degrees": 15.565784325525186,
+          "relief_m": 52.0,
+          "roughness_stddev_m": 21.066619784289138
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 29.58080848,
+            "longitude": 35.41907036,
+            "elevation_m": 994.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 29.58080848,
+            "longitude": 35.42,
+            "elevation_m": 982.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 29.58080848,
+            "longitude": 35.42092964,
+            "elevation_m": 945.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 29.58,
+            "longitude": 35.41907036,
+            "elevation_m": 994.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 29.58,
+            "longitude": 35.42,
+            "elevation_m": 982.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 29.58,
+            "longitude": 35.42092964,
+            "elevation_m": 945.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 29.57919152,
+            "longitude": 35.41907036,
+            "elevation_m": 997.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 29.57919152,
+            "longitude": 35.42,
+            "elevation_m": 968.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 29.57919152,
+            "longitude": 35.42092964,
+            "elevation_m": 945.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          }
+        ],
+        "comparison_group": "copernicus-dem-glo-90-2021"
+      },
+      "geology": {
+        "status": "regional_map_unit_only",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=29.58&lng=35.42",
+        "query_coordinates": {
+          "latitude": 29.58,
+          "longitude": 35.42,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 3156665,
+            "source_id": 147,
+            "name": "Jordan",
+            "stratigraphic_name": null,
+            "lithology": "sandstone",
+            "description": null,
+            "geologic_age_name": null,
+            "age_top_ma": 443.8,
+            "age_bottom_ma": 541.0,
+            "map_scale_class": "small",
+            "source_reference": "Asch, K. The 1:5M International Geological Map of Europe and Adjacent Areas: Development and Implementation of a GIS-enabled Concept. Geologisches Jahrbuch, SA 3. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3307719,
+            "source_id": 190,
+            "name": null,
+            "stratigraphic_name": null,
+            "lithology": "sedimentary",
+            "description": null,
+            "geologic_age_name": null,
+            "age_top_ma": 443.8,
+            "age_bottom_ma": 541.0,
+            "map_scale_class": "small",
+            "source_reference": "Thiéblemont, D. (ed.). New edition of the 1:10,000,000 geological map of Africa. CGMW-BRGM. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3188636,
+            "source_id": 154,
+            "name": "Paleozoic sedimentary rocks",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary rocks",
+            "description": null,
+            "geologic_age_name": "Paleozoic",
+            "age_top_ma": 358.9,
+            "age_bottom_ma": 443.8,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "iceland_highlands": {
+      "coordinates": {
+        "latitude": 64.5,
+        "longitude": -18.5,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "Copernicus DEM 2021 release GLO-90",
+          "dataset_version": "GLO-90, 2021 release",
+          "source_url": "https://api.open-meteo.com/v1/elevation",
+          "product_page": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "provider": "Open-Meteo Elevation API",
+          "provider_url": "https://open-meteo.com/en/docs/elevation-api",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "EGM2008 orthometric heights per Copernicus DEM product; no conversion applied",
+          "native_resolution_m": 90,
+          "native_resolution_note": "Copernicus GLO-90; point values are returned by the Open-Meteo API",
+          "comparison_group": "copernicus-dem-glo-90-2021"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": 660.0,
+          "slope_degrees": 3.2153299884742874,
+          "relief_m": 14.0,
+          "roughness_stddev_m": 4.9216076867444665
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 64.50080848,
+            "longitude": -18.50187795,
+            "elevation_m": 668.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 64.50080848,
+            "longitude": -18.5,
+            "elevation_m": 660.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 64.50080848,
+            "longitude": -18.49812205,
+            "elevation_m": 659.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 64.5,
+            "longitude": -18.50187795,
+            "elevation_m": 668.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 64.5,
+            "longitude": -18.5,
+            "elevation_m": 660.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 64.5,
+            "longitude": -18.49812205,
+            "elevation_m": 659.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 64.49919152,
+            "longitude": -18.50187795,
+            "elevation_m": 673.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 64.49919152,
+            "longitude": -18.5,
+            "elevation_m": 660.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 64.49919152,
+            "longitude": -18.49812205,
+            "elevation_m": 660.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          }
+        ],
+        "comparison_group": "copernicus-dem-glo-90-2021"
+      },
+      "geology": {
+        "status": "regional_map_unit_only",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=64.5&lng=-18.5",
+        "query_coordinates": {
+          "latitude": 64.5,
+          "longitude": -18.5,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 4457731,
+            "source_id": 1080,
+            "name": "Tuff-breccia, agglomerate, or pyroclastic breccia, Pleistocene",
+            "stratigraphic_name": null,
+            "lithology": "tuff-breccia, agglomerate, or pyroclastic breccia",
+            "description": null,
+            "geologic_age_name": "Pleistocene",
+            "age_top_ma": 0.0117,
+            "age_bottom_ma": 2.58,
+            "map_scale_class": "medium",
+            "source_reference": "IS-NI contribution to EGDI 1:1 Million pan-european Surface Geology: NI_J600v_berg bedrock and IS 50V Vatnafar water bodies. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 948575,
+            "source_id": 7,
+            "name": "Quaternary volcanic: mafic rocks",
+            "stratigraphic_name": null,
+            "lithology": "volcanic: mafic rocks",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "small",
+            "source_reference": "Garrity, C.P., and Soller, D.R.,. Database of the Geologic Map of North America: adapted from the map by J.C. Reed, Jr. and others (2005). U.S. Geological Survey Data Series 424 . ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 656505,
+            "source_id": 2,
+            "name": "Igneous: extrusive; Extrusive: mafic",
+            "stratigraphic_name": null,
+            "lithology": "basalt, olivine basalt, tholeiite, alkali basalt, basanite, pillow basalt, flood basalt",
+            "description": "Arctic-North Atlantic region, Iceland, North Atlantic, East Greenland volcanic belt",
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "small",
+            "source_reference": "J.C. Harrison, M.R. St-Onge, O.V. Petrov, S.I. Strelnikov, B.G. Lopatin, \nF.H. Wilson, S. Tella, D. Paul, T. Lynds, S.P. Shokalsky, C.K. Hults, \nS. Bergman, H.F. Jepsen, and A. Solli. Geological map of the Arctic. doi:10.4095/287868. Geological Survey of Canada Map 2159A. ",
+            "source_reference_url": "https://doi.org/10.4095/287868"
+          },
+          {
+            "map_id": 3148188,
+            "source_id": 147,
+            "name": "Quaternary basalt",
+            "stratigraphic_name": null,
+            "lithology": "basalt group",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "small",
+            "source_reference": "Asch, K. The 1:5M International Geological Map of Europe and Adjacent Areas: Development and Implementation of a GIS-enabled Concept. Geologisches Jahrbuch, SA 3. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3185314,
+            "source_id": 154,
+            "name": "Cenozoic volcanic rocks",
+            "stratigraphic_name": null,
+            "lithology": "mafic volcanic rocks",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 2.588,
+            "age_bottom_ma": 66.0,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "dallol_ethiopia": {
+      "coordinates": {
+        "latitude": 14.24,
+        "longitude": 40.3,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "Copernicus DEM 2021 release GLO-90",
+          "dataset_version": "GLO-90, 2021 release",
+          "source_url": "https://api.open-meteo.com/v1/elevation",
+          "product_page": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "provider": "Open-Meteo Elevation API",
+          "provider_url": "https://open-meteo.com/en/docs/elevation-api",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "EGM2008 orthometric heights per Copernicus DEM product; no conversion applied",
+          "native_resolution_m": 90,
+          "native_resolution_note": "Copernicus GLO-90; point values are returned by the Open-Meteo API",
+          "comparison_group": "copernicus-dem-glo-90-2021"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": -93.0,
+          "slope_degrees": 0.7205666619292026,
+          "relief_m": 3.0,
+          "roughness_stddev_m": 0.9938079899999066
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 14.24080848,
+            "longitude": 40.29916589,
+            "elevation_m": -92.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 14.24080848,
+            "longitude": 40.3,
+            "elevation_m": -93.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 14.24080848,
+            "longitude": 40.30083411,
+            "elevation_m": -94.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 14.24,
+            "longitude": 40.29916589,
+            "elevation_m": -92.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 14.24,
+            "longitude": 40.3,
+            "elevation_m": -93.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 14.24,
+            "longitude": 40.30083411,
+            "elevation_m": -94.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 14.23919152,
+            "longitude": 40.29916589,
+            "elevation_m": -91.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 14.23919152,
+            "longitude": 40.3,
+            "elevation_m": -93.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 14.23919152,
+            "longitude": 40.30083411,
+            "elevation_m": -94.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          }
+        ],
+        "comparison_group": "copernicus-dem-glo-90-2021"
+      },
+      "geology": {
+        "status": "regional_map_unit_only",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=14.24&lng=40.3",
+        "query_coordinates": {
+          "latitude": 14.24,
+          "longitude": 40.3,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 3306696,
+            "source_id": 190,
+            "name": null,
+            "stratigraphic_name": null,
+            "lithology": "volcanic",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "small",
+            "source_reference": "Thiéblemont, D. (ed.). New edition of the 1:10,000,000 geological map of Africa. CGMW-BRGM. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3187175,
+            "source_id": 154,
+            "name": "Cenozoic sedimentary and volcanic rocks",
+            "stratigraphic_name": null,
+            "lithology": "mafic volcanic rocks; basalt",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "tabuk_saudi_arabia": {
+      "coordinates": {
+        "latitude": 28.38,
+        "longitude": 36.58,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "Copernicus DEM 2021 release GLO-90",
+          "dataset_version": "GLO-90, 2021 release",
+          "source_url": "https://api.open-meteo.com/v1/elevation",
+          "product_page": "https://spacedata.copernicus.eu/collections/copernicus-digital-elevation-model",
+          "provider": "Open-Meteo Elevation API",
+          "provider_url": "https://open-meteo.com/en/docs/elevation-api",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "EGM2008 orthometric heights per Copernicus DEM product; no conversion applied",
+          "native_resolution_m": 90,
+          "native_resolution_note": "Copernicus GLO-90; point values are returned by the Open-Meteo API",
+          "comparison_group": "copernicus-dem-glo-90-2021"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": 772.0,
+          "slope_degrees": 1.061574401347662,
+          "relief_m": 4.0,
+          "roughness_stddev_m": 1.4229164972072998
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 28.38080848,
+            "longitude": 36.57908108,
+            "elevation_m": 773.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 28.38080848,
+            "longitude": 36.58,
+            "elevation_m": 772.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 28.38080848,
+            "longitude": 36.58091892,
+            "elevation_m": 770.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 28.38,
+            "longitude": 36.57908108,
+            "elevation_m": 773.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 28.38,
+            "longitude": 36.58,
+            "elevation_m": 772.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 28.38,
+            "longitude": 36.58091892,
+            "elevation_m": 770.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 28.37919152,
+            "longitude": 36.57908108,
+            "elevation_m": 773.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 28.37919152,
+            "longitude": 36.58,
+            "elevation_m": 771.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 28.37919152,
+            "longitude": 36.58091892,
+            "elevation_m": 769.0,
+            "source_url": "https://api.open-meteo.com/v1/elevation?latitude=-23.49919152%2C-23.49919152%2C-23.49919152%2C-23.50000000%2C-23.50000000%2C-23.50000000%2C-23.50080848%2C-23.50080848%2C-23.50080848%2C75.38080848%2C75.38080848%2C75.38080848%2C75.38000000%2C75.38000000%2C75.38000000%2C75.37919152%2C75.37919152%2C75.37919152%2C29.58080848%2C29.58080848%2C29.58080848%2C29.58000000%2C29.58000000%2C29.58000000%2C29.57919152%2C29.57919152%2C29.57919152%2C64.50080848%2C64.50080848%2C64.50080848%2C64.50000000%2C64.50000000%2C64.50000000%2C64.49919152%2C64.49919152%2C64.49919152%2C14.24080848%2C14.24080848%2C14.24080848%2C14.24000000%2C14.24000000%2C14.24000000%2C14.23919152%2C14.23919152%2C14.23919152%2C28.38080848%2C28.38080848%2C28.38080848%2C28.38000000%2C28.38000000%2C28.38000000%2C28.37919152%2C28.37919152%2C28.37919152&longitude=-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-69.30088160%2C-69.30000000%2C-69.29911840%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C-89.67320308%2C-89.67000000%2C-89.66679692%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C35.41907036%2C35.42000000%2C35.42092964%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C-18.50187795%2C-18.50000000%2C-18.49812205%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C40.29916589%2C40.30000000%2C40.30083411%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892%2C36.57908108%2C36.58000000%2C36.58091892"
+          }
+        ],
+        "comparison_group": "copernicus-dem-glo-90-2021"
+      },
+      "geology": {
+        "status": "regional_map_unit_only",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=28.38&lng=36.58",
+        "query_coordinates": {
+          "latitude": 28.38,
+          "longitude": 36.58,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 3307735,
+            "source_id": 190,
+            "name": null,
+            "stratigraphic_name": null,
+            "lithology": "sedimentary",
+            "description": null,
+            "geologic_age_name": "Paleozoic",
+            "age_top_ma": 358.9,
+            "age_bottom_ma": 443.8,
+            "map_scale_class": "small",
+            "source_reference": "Thiéblemont, D. (ed.). New edition of the 1:10,000,000 geological map of Africa. CGMW-BRGM. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3137224,
+            "source_id": 147,
+            "name": "Ordovician undifferentiated",
+            "stratigraphic_name": null,
+            "lithology": null,
+            "description": null,
+            "geologic_age_name": "Ordovician",
+            "age_top_ma": 443.8,
+            "age_bottom_ma": 485.4,
+            "map_scale_class": "small",
+            "source_reference": "Asch, K. The 1:5M International Geological Map of Europe and Adjacent Areas: Development and Implementation of a GIS-enabled Concept. Geologisches Jahrbuch, SA 3. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3188636,
+            "source_id": 154,
+            "name": "Paleozoic sedimentary rocks",
+            "stratigraphic_name": null,
+            "lithology": "sedimentary rocks",
+            "description": null,
+            "geologic_age_name": "Paleozoic",
+            "age_top_ma": 358.9,
+            "age_bottom_ma": 443.8,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    },
+    "mauna_loa_hawaii": {
+      "coordinates": {
+        "latitude": 19.48,
+        "longitude": -155.6,
+        "source": "sites.json; approximate candidate point"
+      },
+      "terrain": {
+        "status": "complete",
+        "source": {
+          "dataset": "USGS 3D Elevation Program (3DEP), Elevation Point Query Service",
+          "dataset_version": "Live USGS service; point-query response supplies raster IDs and resolution codes, not a named release",
+          "source_url": "https://epqs.nationalmap.gov/v1/json",
+          "product_page": "https://www.usgs.gov/3d-elevation-program",
+          "horizontal_crs": "WGS 84 (EPSG:4326)",
+          "vertical_unit": "m",
+          "vertical_datum": "Not identified in the EPQS point response; no datum conversion applied",
+          "resolution_codes": [
+            "1"
+          ],
+          "raster_ids": [
+            38734
+          ],
+          "native_resolution_note": "Service-reported resolution code is preserved per point; the API response does not identify its unit.",
+          "comparison_group": "usgs-3dep-resolution-1-datum-unreported:mauna_loa_hawaii"
+        },
+        "coordinate_source": "sites.json and candidate_sites.csv (validated to match)",
+        "site_coordinate_precision": "Approximate candidate coordinate; no additional precision inferred",
+        "sampling": {
+          "method": "3x3 point samples centered on the supplied coordinate",
+          "sample_spacing_m": 90.0,
+          "footprint_m": 180.0,
+          "rows": 3,
+          "columns": 3,
+          "nodata_policy": "No imputation; all four derived metrics require all 9 valid samples"
+        },
+        "processing": {
+          "elevation": "Center value from the 3x3 sample window",
+          "slope": "Horn 3x3 finite-difference derivative at the center; slope = atan(sqrt(dz/dx^2 + dz/dy^2)); degrees",
+          "relief": "Maximum minus minimum elevation among the 9 samples; metres",
+          "roughness": "Population standard deviation of the 9 sampled elevations; metres"
+        },
+        "metrics": {
+          "valid_samples": 9,
+          "total_samples": 9,
+          "elevation_m": 4016.709960938,
+          "slope_degrees": 38.292642223372255,
+          "relief_m": 165.3403320309999,
+          "roughness_stddev_m": 60.03771798502567
+        },
+        "samples": [
+          {
+            "row": 0,
+            "column": 0,
+            "latitude": 19.48080848,
+            "longitude": -155.60085757,
+            "elevation_m": 4152.670410156,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.60085757&y=19.48080848&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 0,
+            "column": 1,
+            "latitude": 19.48080848,
+            "longitude": -155.6,
+            "elevation_m": 4103.419921875,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.60000000&y=19.48080848&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 0,
+            "column": 2,
+            "latitude": 19.48080848,
+            "longitude": -155.59914243,
+            "elevation_m": 4020.669921875,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.59914243&y=19.48080848&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 1,
+            "column": 0,
+            "latitude": 19.48,
+            "longitude": -155.60085757,
+            "elevation_m": 4109.020019531,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.60085757&y=19.48000000&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 1,
+            "column": 1,
+            "latitude": 19.48,
+            "longitude": -155.6,
+            "elevation_m": 4016.709960938,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.60000000&y=19.48000000&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 1,
+            "column": 2,
+            "latitude": 19.48,
+            "longitude": -155.59914243,
+            "elevation_m": 3988.260009766,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.59914243&y=19.48000000&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 2,
+            "column": 0,
+            "latitude": 19.47919152,
+            "longitude": -155.60085757,
+            "elevation_m": 3996.540039062,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.60085757&y=19.47919152&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 2,
+            "column": 1,
+            "latitude": 19.47919152,
+            "longitude": -155.6,
+            "elevation_m": 3987.989990234,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.60000000&y=19.47919152&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          },
+          {
+            "row": 2,
+            "column": 2,
+            "latitude": 19.47919152,
+            "longitude": -155.59914243,
+            "elevation_m": 3987.330078125,
+            "source_url": "https://epqs.nationalmap.gov/v1/json?x=-155.59914243&y=19.47919152&units=Meters&output=json",
+            "raster_id": 38734,
+            "resolution_code": 1
+          }
+        ],
+        "comparison_group": "usgs-3dep-resolution-1-datum-unreported:mauna_loa_hawaii"
+      },
+      "geology": {
+        "status": "detailed_map_unit_available",
+        "dataset": "Macrostrat geologic_units/map point intersection",
+        "api_version": 2,
+        "license": "CC-BY 4.0",
+        "query_url": "https://macrostrat.org/api/geologic_units/map?lat=19.48&lng=-155.6",
+        "query_coordinates": {
+          "latitude": 19.48,
+          "longitude": -155.6,
+          "coordinate_source": "sites.json; approximate candidate point"
+        },
+        "interpretation": "Returned map units intersect the approximate candidate coordinate. Map scale varies by source; this is a regional map interpretation, not a field-verified site observation. Ages and lithologies are shown only when supplied by the source.",
+        "map_units": [
+          {
+            "map_id": 4491957,
+            "source_id": 558,
+            "name": "Steep walls of calderas and pit craters",
+            "stratigraphic_name": "Steep walls of calderas and pit craters",
+            "lithology": "basalt",
+            "description": "Lava flows and thin tephra beds exposed as a consequence of caldera- or crater-floor collapse. Deposits vary in age depending on depth of exposure; therefore several stratigraphic units may be included at different locations. Shown on Kīlauea and Mauna Loa. In walls of Kīlauea caldera, as much as 130 m (440 ft) of exposed strata range in age from 600 to 3,000 yr (corresponding to lava units Qp4, Qp3, and Qp2). Lava older than 3,000 yr (thus in Qp1y) conceivably is exposed in Pauahi and Makaopuhi Craters on the east rift zone, on basis of tephrastratigraphy (D.A. Swanson, written commun., 2009). On Mauna Loa, highest walls are at the summit caldera, Moku‘āweoweo, where 180 m (600 ft) of exposed strata range in age from 3,000 to 200 yr B.P. (corresponding to lava units Qk4, Qk3, and Qk2; F.A. Trusdell, written commun., 2009). Three pit crater walls on lower southwest rift zone that were shown as unit Qcw by Wolfe and Morris (1996a) are depicted here more precisely as Kahuku Basalt (unit Qkh)",
+            "geologic_age_name": "Holocene",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 0.0117,
+            "map_scale_class": "large",
+            "source_reference": "Sherrod, D.R., Sinton, J.M., Watkins, S.E., and Brunt, K.M., 2021, Geologic map of the State of Hawaiʻi: U.S. Geological Survey Scientific Investigations Map 3143, pamphlet 72 p., 5 sheets, scales 1:100,000 and 1:250,000, https://doi.org/10.3133/sim3143. https://doi.org/10.3133/sim3143. ",
+            "source_reference_url": "https://doi.org/10.3133/sim3143"
+          },
+          {
+            "map_id": 2339810,
+            "source_id": 48,
+            "name": "Caldera wall rocks",
+            "stratigraphic_name": null,
+            "lithology": "Lava flows, thin tephra deposits",
+            "description": "Tholeiitic basalt",
+            "geologic_age_name": "Holocene",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 0.0117,
+            "map_scale_class": "medium",
+            "source_reference": "Sherrod, D.R., J.M. Sinton, S.E. Watkins, K.M. Brunt. Geologic Map of the State of Hawaii. U.S. Geological Survey. ",
+            "source_reference_url": null
+          },
+          {
+            "map_id": 3186232,
+            "source_id": 154,
+            "name": "Cenozoic volcanic rocks",
+            "stratigraphic_name": null,
+            "lithology": "shield volcano(s); mafic volcanic rocks",
+            "description": null,
+            "geologic_age_name": "Cenozoic",
+            "age_top_ma": 0.0,
+            "age_bottom_ma": 2.588,
+            "map_scale_class": "tiny",
+            "source_reference": "Chorlton, L.B. Generalized geology of the world: bedrock domains and major faults in GIS format: a small-scale world geology map with an extended geological attribute database. doi: 10.4095/223767. Geological Survey of Canada, Open File 5529. ",
+            "source_reference_url": "https://doi.org/10.4095/223767"
+          }
+        ]
+      }
+    }
+  },
+  "planetary_reference": {
+    "Moon": {
+      "status": "unavailable_no_site_coordinates",
+      "reason": "The project contains no lunar target location or coordinates; no site-level LOLA elevation or USGS lunar map unit was extracted.",
+      "elevation_source": "NASA Lunar Orbiter Laser Altimeter (LOLA)",
+      "elevation_source_url": "https://imbrium.mit.edu/",
+      "geology_source": "USGS Astrogeology planetary map products",
+      "geology_source_url": "https://astrogeology.usgs.gov/search/map/moon/geology",
+      "geology_product_url": "https://pubs.usgs.gov/sim/3464/",
+      "product_version_or_resolution": "No LOLA raster/version or lunar map scale selected because no target coordinates were supplied."
+    },
+    "Mars": {
+      "status": "unavailable_no_site_coordinates",
+      "reason": "The project contains no Mars target location or coordinates; no site-level MOLA elevation or USGS Mars map unit was extracted.",
+      "elevation_source": "NASA Mars Orbiter Laser Altimeter (MOLA) MEGDR",
+      "elevation_source_url": "https://pds-geosciences.wustl.edu/missions/mgs/megdr.html",
+      "geology_source": "USGS Astrogeology planetary map products",
+      "geology_source_url": "https://astrogeology.usgs.gov/search/map/mars/geology",
+      "geology_product_url": "https://pubs.usgs.gov/sim/3292/",
+      "product_version_or_resolution": "No MOLA raster/version or Mars map scale selected because no target coordinates were supplied."
+    }
+  }
+}

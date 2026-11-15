@@ -1,5 +1,5 @@
 (() => {
-  const state = { sites: [], facts: [], sources: [], climateSummary: [], daily: [], downloadErrors: [], climateMetadata: null, selected: new Set(), body: 'Earth', map: null, markers: new Map(), chart: null, tilesUnavailable: false };
+  const state = { sites: [], facts: [], sources: [], climateSummary: [], daily: [], downloadErrors: [], climateMetadata: null, terrainGeology: null, selected: new Set(), body: 'Earth', map: null, markers: new Map(), chart: null, tilesUnavailable: false };
   const $ = (selector) => document.querySelector(selector);
   const el = (tag, className, text) => {
     const node = document.createElement(tag);
@@ -151,13 +151,21 @@
   function renderComparison() {
     const content = $('#comparison-content');
     content.replaceChildren();
+    const note = $('#comparison-provenance');
     const selected = state.sites.filter((site) => state.selected.has(site.site));
     if (!selected.length) {
       const empty = el('div', 'empty-state');
       empty.append(el('span', '', '＋'), el('strong', '', 'Select candidate sites to compare'), el('p', '', 'Use the site cards above. No rankings are produced.'));
       content.append(empty);
+      note.textContent = 'Terrain measurements are compared only within matching source/resolution and vertical-reference groups. Geologic map units are descriptive and map scales vary. No combined score or ranking is calculated.';
       return;
     }
+    const groups = selected.map((site) => terrainForSite(site.site)?.comparison_group).filter(Boolean);
+    const uniqueGroups = new Set(groups);
+    const everySiteHasTerrain = selected.every((site) => terrainForSite(site.site)?.status === 'complete');
+    note.textContent = uniqueGroups.size === 1 && everySiteHasTerrain
+      ? `All selected terrain values use ${[...uniqueGroups][0]} and the same 90 m-spaced 3×3 method; they may be compared descriptively at that scale. Geologic maps have varying scales and are shown as separate citations. Climate values share the NASA POWER 2023–2024 period. No combined score or ranking is calculated.`
+      : `Selected terrain source/resolution or vertical-reference groups differ, or windows are missing (${[...uniqueGroups].join(', ') || 'none reported'}). Values are shown with provenance but are not directly compared across groups. Geologic maps have varying scales. Climate values share the NASA POWER 2023–2024 period. No combined score or ranking is calculated.`;
     const wrap = el('div', 'comparison-table-wrap');
     const table = el('table', 'comparison-table');
     const header = document.createElement('thead');
@@ -175,9 +183,23 @@
       ['NASA POWER mean T2M (°C)', (site) => climateValue(site, 'mean_temp_c', 2)],
       ['NASA POWER 2023–24 precip. total (mm)', (site) => climateValue(site, 'total_precipitation_mm_2023_2024', 2)],
       ['NASA POWER dates returned / requested', (site) => climateDays(site)],
-      ['Site terrain / geology', () => 'Missing'],
+      ['Terrain elevation (m)', (site) => terrainMetric(site, 'elevation_m')],
+      ['Terrain slope (degrees)', (site) => terrainMetric(site, 'slope_degrees')],
+      ['Terrain local relief (m)', (site) => terrainMetric(site, 'relief_m')],
+      ['Terrain roughness, 3×3 standard deviation (m)', (site) => terrainMetric(site, 'roughness_stddev_m')],
+      ['Terrain source/resolution group', (site) => terrainForSite(site.site)?.comparison_group || null],
+      ['Mapped geology (unit · scale)', geologySummary],
+      ['Mapped lithology / age (Ma)', (site) => {
+        const unit = geologyForSite(site.site)?.map_units?.[0];
+        if (!unit) return null;
+        const lithology = unit.lithology || 'Lithology not reported';
+        const age = validNumber(unit.age_top_ma) && validNumber(unit.age_bottom_ma)
+          ? `${unit.age_top_ma}–${unit.age_bottom_ma} Ma`
+          : unit.geologic_age_name || 'Age not reported';
+        return `${lithology} · ${age}`;
+      }],
       ['Measurement uncertainty', () => 'Not provided by current datasets'],
-      ['Similarity outcome', () => 'Insufficient verified data']
+      ['Similarity outcome', () => 'Insufficient comparable data']
     ];
     for (const [label, valueFor] of rows) {
       const tr = document.createElement('tr'); const th = document.createElement('td'); th.textContent = label; tr.append(th);
@@ -198,6 +220,21 @@
     const data = findSiteClimate(site.site);
     if (!data || !validNumber(data.days_downloaded)) return null;
     return `${data.days_downloaded} / ${data.days_requested ?? 731}`;
+  }
+  function terrainForSite(siteId) {
+    return state.terrainGeology?.locations?.[siteId]?.terrain || null;
+  }
+  function geologyForSite(siteId) {
+    return state.terrainGeology?.locations?.[siteId]?.geology || null;
+  }
+  function terrainMetric(site, key, digits = 2) {
+    const value = terrainForSite(site.site)?.metrics?.[key];
+    return validNumber(value) ? Number(value).toFixed(digits) : null;
+  }
+  function geologySummary(site) {
+    const geology = geologyForSite(site.site);
+    const unit = geology?.map_units?.[0];
+    return unit ? `${unit.name || 'Unnamed mapped unit'} · ${unit.map_scale_class || 'scale not reported'} map scale` : null;
   }
   function renderFacts() {
     const facts = state.facts.filter((fact) => fact.body === state.body);
@@ -254,6 +291,130 @@
         $('#map-fallback').textContent = 'Interactive map unavailable (mapping library could not be loaded). Candidate cards and coordinates remain available below.';
       }
       if (state.map) window.setTimeout(() => state.map.invalidateSize(), 50);
+    }
+  }
+  function externalLink(parent, url, label) {
+    try {
+      const target = new URL(url);
+      if (target.protocol !== 'https:') throw new Error('Source URL must use HTTPS');
+      const link = el('a', 'source-link', label);
+      link.href = target.href;
+      link.target = '_blank';
+      link.rel = 'noopener noreferrer';
+      parent.append(link);
+      return true;
+    } catch {
+      parent.append(el('span', 'muted', 'Source URL not provided'));
+      return false;
+    }
+  }
+  function renderTerrain() {
+    const area = $('#terrain-content');
+    const status = $('#terrain-status');
+    area.replaceChildren();
+    const locations = state.terrainGeology?.locations;
+    if (!locations) {
+      status.textContent = 'NO DATA FILE';
+      status.className = 'tag tag-missing';
+      area.append(el('p', 'muted', 'Terrain data is unavailable. The live source extraction has not been run or its output file could not be loaded; no measurements are inferred.'));
+      return;
+    }
+    const complete = state.sites.filter((site) => terrainForSite(site.site)?.status === 'complete').length;
+    status.textContent = `${complete}/${state.sites.length} WINDOWS`;
+    status.className = complete === state.sites.length && complete ? 'tag tag-available' : 'tag tag-missing';
+    area.append(el('p', 'coverage-summary', `${complete} of ${state.sites.length} sites have all 9 terrain samples. Elevation, slope, relief, and roughness are not imputed.`));
+    for (const site of state.sites) {
+      const terrain = terrainForSite(site.site);
+      const details = el('details', 'coverage-detail');
+      const elevation = terrainMetric(site, 'elevation_m');
+      details.append(el('summary', '', `${pretty(site.site)} · ${elevation === null ? 'elevation unavailable' : `${elevation} m`}`));
+      if (!terrain) {
+        details.append(el('p', 'muted', 'No terrain record for this candidate.'));
+        area.append(details);
+        continue;
+      }
+      const metrics = terrain.metrics || {};
+      const rows = [
+        ['Elevation', metrics.elevation_m, 'm'],
+        ['Slope (Horn 3×3)', metrics.slope_degrees, '°'],
+        ['Relief (3×3 max − min)', metrics.relief_m, 'm'],
+        ['Roughness (3×3 population standard deviation)', metrics.roughness_stddev_m, 'm']
+      ];
+      for (const [label, value, unit] of rows) {
+        details.append(el('div', 'measurement-row', `${label}: ${validNumber(value) ? `${Number(value).toFixed(2)} ${unit}` : 'Unavailable'}`));
+      }
+      details.append(el('p', 'measurement-provenance', `${terrain.metrics?.valid_samples ?? 0}/${terrain.metrics?.total_samples ?? 9} valid samples · ${terrain.sampling?.sample_spacing_m ?? '—'} m spacing · ${terrain.sampling?.footprint_m ?? '—'} m window · ${terrain.source?.dataset || 'Source not recorded'}`));
+      details.append(el('p', 'measurement-provenance', `Approximate input point ${Number(site.latitude).toFixed(5)}°, ${Number(site.longitude).toFixed(5)}° · ${terrain.source?.horizontal_crs || 'CRS not reported'} · vertical datum: ${terrain.source?.vertical_datum || 'not reported'}`));
+      if (terrain.source?.native_resolution_m) {
+        details.append(el('p', 'measurement-provenance', `Native source resolution: ${terrain.source.native_resolution_m} m · ${terrain.source.native_resolution_note || ''}`));
+      } else if (terrain.source?.native_resolution_note) {
+        details.append(el('p', 'measurement-provenance', terrain.source.native_resolution_note));
+      }
+      const links = el('div', 'measurement-links');
+      if (terrain.source?.product_page) externalLink(links, terrain.source.product_page, 'Product documentation ↗');
+      if (terrain.source?.provider_url) externalLink(links, terrain.source.provider_url, 'Elevation API documentation ↗');
+      else if (terrain.samples?.[0]?.source_url) externalLink(links, terrain.samples[0].source_url, 'Sample query ↗');
+      details.append(links);
+      const samples = el('details', 'sample-detail');
+      samples.append(el('summary', '', 'View exact 3×3 sample coordinates and elevations'));
+      for (const sample of terrain.samples || []) {
+        samples.append(el('div', 'sample-row', `${sample.latitude}°, ${sample.longitude}° · ${validNumber(sample.elevation_m) ? `${Number(sample.elevation_m).toFixed(2)} m` : 'Missing'}`));
+      }
+      details.append(samples);
+      area.append(details);
+    }
+    if (state.terrainGeology.metadata?.errors?.length) {
+      area.append(el('p', 'muted', `${state.terrainGeology.metadata.errors.length} source error(s) are recorded in the exported evidence snapshot.`));
+    }
+  }
+  function renderGeology() {
+    const area = $('#geology-content');
+    const status = $('#geology-status');
+    area.replaceChildren();
+    const locations = state.terrainGeology?.locations;
+    if (!locations) {
+      status.textContent = 'NO DATA FILE';
+      status.className = 'tag tag-missing';
+      area.append(el('p', 'muted', 'Mapped geology is unavailable. No units, rock types, or ages are inferred.'));
+      return;
+    }
+    const detailed = state.sites.filter((site) => geologyForSite(site.site)?.status === 'detailed_map_unit_available').length;
+    const mapped = state.sites.filter((site) => (geologyForSite(site.site)?.map_units || []).length).length;
+    status.textContent = `${mapped}/${state.sites.length} MAPPED · ${detailed} DETAILED`;
+    status.className = mapped === state.sites.length && detailed ? 'tag tag-available' : 'tag tag-missing';
+    area.append(el('p', 'coverage-summary', `${detailed} sites have a large-scale map intersection; ${mapped - detailed} have regional-scale context only. Approximate point queries are not field verification.`));
+    for (const site of state.sites) {
+      const geology = geologyForSite(site.site);
+      const details = el('details', 'coverage-detail');
+      const firstUnit = geology?.map_units?.[0];
+      details.append(el('summary', '', `${pretty(site.site)} · ${firstUnit?.map_scale_class || geology?.status || 'no map unit'}`));
+      if (!geology?.map_units?.length) {
+        details.append(el('p', 'muted', geology?.error || 'No mapped unit returned for this approximate coordinate.'));
+        if (geology?.query_url) externalLink(details, geology.query_url, 'Open map query ↗');
+        area.append(details);
+        continue;
+      }
+      details.append(el('p', 'measurement-provenance', `${geology.dataset || 'Map product not specified'} · API v${geology.api_version ?? 'not reported'} · ${geology.license || 'license not reported'}`));
+      details.append(el('p', 'measurement-provenance', geology.interpretation || 'Map-scale and coordinate limitations apply.'));
+      for (const unit of geology.map_units) {
+        const unitBlock = el('div', 'geology-unit');
+        unitBlock.append(el('strong', '', unit.name || 'Unnamed mapped unit'));
+        const lithology = unit.lithology || unit.stratigraphic_name || 'Lithology not reported';
+        unitBlock.append(el('p', '', `Rock type / description: ${lithology}`));
+        const age = validNumber(unit.age_top_ma) && validNumber(unit.age_bottom_ma)
+          ? `${unit.age_top_ma}–${unit.age_bottom_ma} Ma · ${unit.geologic_age_name || 'interval name not reported'}`
+          : unit.geologic_age_name || 'Geological age not reported';
+        unitBlock.append(el('p', '', `Mapped age: ${age} · ${unit.map_scale_class || 'map scale not reported'} scale · map ${unit.map_id ?? 'ID not reported'}`));
+        if (unit.description) unitBlock.append(el('p', 'measurement-provenance', unit.description));
+        if (unit.source_reference) unitBlock.append(el('p', 'measurement-provenance', unit.source_reference));
+        if (unit.source_reference_url) externalLink(unitBlock, unit.source_reference_url, 'Original map / DOI ↗');
+        else unitBlock.append(el('span', 'muted', 'Original map URL not supplied in citation'));
+        details.append(unitBlock);
+      }
+      const links = el('div', 'measurement-links');
+      externalLink(links, geology.query_url, 'Open exact map query ↗');
+      details.append(links);
+      area.append(details);
     }
   }
   function renderClimate() {
@@ -385,14 +546,17 @@
       report_title: 'Space Analog Explorer',
       generated_at_utc: new Date().toISOString(),
       selected_body: state.body,
-      scientific_status: 'Insufficient verified data',
+      scientific_status: 'Insufficient comparable data',
       similarity_score: null,
-      interpretation: 'No validated analog outcome or ranking is calculated. Site-specific terrain and geology measurements are missing.',
-      methodology: 'Candidate list is searched and compared descriptively only. NASA POWER Earth climate summaries, if present, are reported with source, location, unit, period, and coverage; global planetary facts are context only. No cross-world similarity score is computed because compatible site-level terrain and geology measurements are unavailable.',
+      interpretation: 'No validated analog outcome or ranking is calculated. Earth terrain and mapped units are descriptive measurements at approximate candidate coordinates; planetary target coordinates are absent.',
+      methodology: 'Candidate list is searched and compared descriptively only. NASA POWER Earth climate summaries and site terrain/geology evidence retain their sources, coordinates, units, processing, and coverage. Terrain metrics are comparable only within matching source/resolution and vertical-reference groups; map units retain their original scale. No cross-world similarity score is computed.',
       scientific_limitations: [
         'Candidate coordinates and environment labels are approximate and unvalidated.',
         'Earth atmospheric conditions and gravity do not reproduce lunar or Martian environments.',
-        'No site-level elevation, slope, relief, roughness, or mapped geology products are processed.',
+        'Earth geology map intersections vary in map scale and are not field-verified observations.',
+        'No lunar or Mars site coordinates are supplied; LOLA/MOLA and planetary geology site measurements are unavailable.',
+        '3DEP point responses do not identify a vertical datum; values are not converted.',
+        'Terrain values from different source/resolution groups are not directly compared.',
         'NASA POWER values are gridded modeled/reanalysis-derived estimates, not in-situ observations.',
         'Per-site measurement uncertainties and confidence intervals are not supplied by the current files or computed by this MVP.',
         'The planetary globe is illustrative and contains no scientific terrain or imagery data.'
@@ -406,10 +570,14 @@
         nasa_power_daily_records: state.daily.length,
         nasa_power_download_errors: state.downloadErrors,
         nasa_power_metadata: state.climateMetadata,
-        terrain: 'Not processed; site-level measurements missing',
-        geology: 'Not processed; site-specific mapped units missing',
+        terrain_complete_locations: state.sites.filter((site) => terrainForSite(site.site)?.status === 'complete').map((site) => site.site),
+        terrain_missing_locations: state.sites.filter((site) => terrainForSite(site.site)?.status !== 'complete').map((site) => site.site),
+        geology_by_location: Object.fromEntries(state.sites.map((site) => [site.site, geologyForSite(site.site)?.status || 'unavailable'])),
+        planetary_reference: state.terrainGeology?.planetary_reference || null,
+        terrain_geology_metadata: state.terrainGeology?.metadata || null,
         similarity: 'Not computed'
       },
+      terrain_geology: state.terrainGeology,
       climate_summary: state.climateSummary,
       climate_daily_record_count: state.daily.length,
       climate_daily_records: state.daily
@@ -427,10 +595,14 @@
   }
   function csvCell(value) { return `"${String(value ?? '').replaceAll('"', '""')}"`; }
   function exportCSV() {
-    const columns = ['site', 'latitude', 'longitude', 'coordinate_precision', 'candidate_source_file', 'country', 'environment', 'role', 'status', 'selected_for_comparison', 'nasa_power_mean_temp_c', 'nasa_power_mean_temp_unit', 'nasa_power_total_precipitation_mm_2023_2024', 'nasa_power_total_precipitation_unit', 'nasa_power_dates_returned', 'nasa_power_dates_requested', 'nasa_power_valid_days_t2m', 'nasa_power_valid_days_precipitation', 'nasa_power_source', 'nasa_power_source_url', 'nasa_power_period', 'similarity_outcome'];
+    const columns = ['site', 'latitude', 'longitude', 'coordinate_precision', 'candidate_source_file', 'country', 'environment', 'role', 'status', 'selected_for_comparison', 'nasa_power_mean_temp_c', 'nasa_power_mean_temp_unit', 'nasa_power_total_precipitation_mm_2023_2024', 'nasa_power_total_precipitation_unit', 'nasa_power_dates_returned', 'nasa_power_dates_requested', 'nasa_power_valid_days_t2m', 'nasa_power_valid_days_precipitation', 'nasa_power_source', 'nasa_power_source_url', 'nasa_power_period', 'terrain_status', 'terrain_elevation_m', 'terrain_slope_degrees', 'terrain_relief_m', 'terrain_roughness_stddev_m', 'terrain_dataset', 'terrain_resolution_group', 'terrain_native_resolution', 'terrain_sample_spacing_m', 'terrain_window_m', 'terrain_source_url', 'geology_status', 'geology_top_unit', 'geology_lithology', 'geology_age_top_ma', 'geology_age_bottom_ma', 'geology_map_scale', 'geology_citation', 'geology_query_url', 'similarity_outcome'];
     const lines = [columns.map(csvCell).join(',')];
     for (const site of state.sites) {
       const summary = findSiteClimate(site.site) || {};
+      const terrain = terrainForSite(site.site);
+      const geology = geologyForSite(site.site);
+      const unit = geology?.map_units?.[0] || {};
+      const source = terrain?.source || {};
       lines.push([
         site.site, site.latitude, site.longitude, 'Approximate input coordinate', 'candidate_sites.csv / sites.json',
         site.country, site.environment, site.role, site.status, state.selected.has(site.site),
@@ -438,7 +610,16 @@
         summary.total_precipitation_unit ?? 'mm',
         summary.days_downloaded ?? '', summary.days_requested ?? '', summary.valid_days_t2m ?? '',
         summary.valid_days_precipitation ?? '', summary.source ?? '', summary.source_url ?? '', summary.period ?? '',
-        'Insufficient verified data'
+        terrain?.status ?? '', terrain?.metrics?.elevation_m ?? '', terrain?.metrics?.slope_degrees ?? '',
+        terrain?.metrics?.relief_m ?? '', terrain?.metrics?.roughness_stddev_m ?? '',
+        source.dataset ?? '', terrain?.comparison_group ?? '',
+        source.native_resolution_m ?? source.native_resolution_note ?? '',
+        terrain?.sampling?.sample_spacing_m ?? '', terrain?.sampling?.footprint_m ?? '',
+        terrain?.samples?.[0]?.source_url ?? '',
+        geology?.status ?? '', unit.name ?? '', unit.lithology ?? '',
+        unit.age_top_ma ?? '', unit.age_bottom_ma ?? '', unit.map_scale_class ?? '',
+        unit.source_reference ?? '', geology?.query_url ?? '',
+        'Insufficient comparable data'
       ].map(csvCell).join(','));
     }
     download('space-analog-explorer-candidate-report.csv', `${lines.join('\r\n')}\r\n`, 'text/csv;charset=utf-8');
@@ -447,7 +628,8 @@
     const results = await Promise.allSettled([
       loadJSON('sites.json'), loadCSV('planetary_facts.csv'), loadCSV('data_sources.csv'),
       loadJSON('data/earth/climate_summary.json'), loadCSV('data/earth/climate_summary.csv'), loadCSV('data/earth/nasa_power_daily_2023_2024.csv'),
-      loadJSON('data/earth/download_errors.json'), loadJSON('data/earth/climate_metadata.json')
+      loadJSON('data/earth/download_errors.json'), loadJSON('data/earth/climate_metadata.json'),
+      loadJSON('data/processed/site_terrain_geology.json')
     ]);
     if (results[0].status === 'fulfilled') state.sites = results[0].value;
     else state.siteLoadError = true;
@@ -459,9 +641,10 @@
     state.daily = results[5].status === 'fulfilled' ? results[5].value : [];
     state.downloadErrors = results[6].status === 'fulfilled' && Array.isArray(results[6].value) ? results[6].value : [];
     state.climateMetadata = results[7].status === 'fulfilled' ? results[7].value : null;
+    state.terrainGeology = results[8].status === 'fulfilled' ? results[8].value : null;
     makeMap();
     if (state.map) state.sites.forEach(addMarker);
-    renderSites(); renderFacts(); renderClimate(); renderSources(); updateSelection();
+    renderSites(); renderFacts(); renderTerrain(); renderGeology(); renderClimate(); renderSources(); updateSelection();
   }
   function bindEvents() {
     let sourceWasOpen = false;

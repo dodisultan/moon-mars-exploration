@@ -1,0 +1,58 @@
+name: Validate site and evidence data
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v4
+      - name: Set up Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Check JavaScript syntax
+        run: |
+          node --check app.js
+          node --check planet-globe.js
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Test data validation and terrain processing
+        run: |
+          python -m unittest discover -s tests -v
+          python -m py_compile download_real_climate.py process_site_terrain_geology.py
+      - name: Assemble and verify GitHub Pages package
+        run: |
+          mkdir -p _site
+          cp index.html styles.css app.js planet-globe.js sites.json candidate_sites.csv planetary_facts.csv data_sources.csv download_real_climate.py process_site_terrain_geology.py README.md METHODS.md _site/
+          cp -R data _site/data
+          python - <<'PY'
+          import json
+          from pathlib import Path
+
+          root = Path("_site")
+          required = [
+              "index.html", "styles.css", "app.js", "planet-globe.js", "sites.json",
+              "data/earth/climate_summary.json", "data/earth/nasa_power_daily_2023_2024.csv",
+              "data/processed/site_terrain_geology.json",
+          ]
+          missing = [path for path in required if not (root / path).is_file()]
+          if missing:
+              raise SystemExit(f"GitHub Pages package is missing: {', '.join(missing)}")
+          sites = json.loads((root / "sites.json").read_text())
+          evidence = json.loads((root / "data/processed/site_terrain_geology.json").read_text())
+          if set(evidence["locations"]) != {site["site"] for site in sites}:
+              raise SystemExit("Packaged terrain/geology locations do not match sites.json")
+          html = (root / "index.html").read_text()
+          for asset in ("styles.css", "app.js", "planet-globe.js"):
+              if asset not in html:
+                  raise SystemExit(f"index.html does not reference relative asset {asset}")
+          PY
